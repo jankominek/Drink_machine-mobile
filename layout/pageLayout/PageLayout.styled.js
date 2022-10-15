@@ -10,13 +10,11 @@ export const PageLayoutWrapper = styled.View`
 	height: ${windowHeight - StatusBar.currentHeight}px;
 	margin-top: ${StatusBar.currentHeight}px;
 	background: ${colorPallete.darkBlue};
-	border: 1px dotted red;
 `;
 
 export const ViewWrapper = styled.View`
 	flex: 1;
 	display: flex;
-	border: 1px solid green;
 	${({ center }) =>
 		center &&
 		`
