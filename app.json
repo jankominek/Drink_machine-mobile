@@ -19,6 +19,7 @@
 			"supportsTablet": true
 		},
 		"android": {
+			"package": "com.drink.machine",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
