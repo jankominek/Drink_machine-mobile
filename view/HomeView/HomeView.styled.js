@@ -15,6 +15,11 @@ export const BannerWrapper = styled.View`
 	margin: 20px 0px;
 `;
 
+export const Flex = styled.View`
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+`;
 export const BannerContent = styled.View`
 	display: flex;
 	flex-direction: column;
