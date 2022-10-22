@@ -9,8 +9,8 @@ export const CardWrapper = styled.View`
 `;
 
 export const DrinkImage = styled.Image`
-	width: 50px;
-	height: 80px;
+	width: 20px;
+	height: 30px;
 	aspectratio: 1;
 	resizemode: contain;
 `;

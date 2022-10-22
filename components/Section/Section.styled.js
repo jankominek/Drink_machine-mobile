@@ -9,7 +9,7 @@ export const SectionWrapper = styled.View`
 `;
 
 export const SectionTitle = styled.Text`
-	font-size: 20px;
+	font-size: 15px;
 	color: ${colorPallete.white};
 	margin: 0 10px;
 `;

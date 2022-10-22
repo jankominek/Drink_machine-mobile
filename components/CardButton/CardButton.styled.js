@@ -12,10 +12,10 @@ export const CardButtonWrapper = styled.TouchableOpacity`
 	margin: 0px 2.5%;
 	background: ${colorPallete.orange};
 	border-radius: 5px;
-	height: 80px;
+	height: 40px;
 `;
 
 export const CardButtonText = styled.Text`
-	font-size: 20px;
+	font-size: 15px;
 	color: ${colorPallete.darkBlue};
 `;

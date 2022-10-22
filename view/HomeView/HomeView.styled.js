@@ -19,6 +19,7 @@ export const Flex = styled.View`
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+	margin-bottom: 10px;
 `;
 export const BannerContent = styled.View`
 	display: flex;

@@ -8,11 +8,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SigningView } from "./view/SigningView/SigningView";
 import { HomeView } from "./view/HomeView/HomeView";
 import { VerifyView } from "./view/VerifyView/VerifyView";
+import { CreateDrinkView } from "./view/CreateDrinkView/CreateDrinkView";
 
 const Stack = createNativeStackNavigator();
 
 const navigationOptions = {
-	initialRouteName: "Sign",
+	initialRouteName: "Home",
 	screenOptions: {
 		...{
 			headerShown: false,
@@ -24,13 +25,14 @@ export default function App() {
 	return (
 		<>
 			<StatusBar backgroundColor={colorPallete.darkBlue} style="light" />
-			{/* <NavigationContainer>
+			<NavigationContainer>
 				<Stack.Navigator {...navigationOptions}>
-					<Stack.Screen name="Sign" component={SigningView} />
+					{/* <Stack.Screen name="Sign" component={SigningView} /> */}
 					<Stack.Screen name="Home" component={HomeView} />
+					<Stack.Screen name="CreateDrink" component={CreateDrinkView} />
 				</Stack.Navigator>
-			</NavigationContainer> */}
-			<HomeView />
+			</NavigationContainer>
+			{/* <HomeView /> */}
 			{/* <VerifyView /> */}
 		</>
 	);

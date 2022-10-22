@@ -17,7 +17,7 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
-const HomeViewContainer = () => {
+const HomeViewContainer = ({ navigation }) => {
 	const RecommendedDrinksContent = (
 		<>
 			<CardComponent icon="jameson" description="Jameson" />
@@ -52,7 +52,9 @@ const HomeViewContainer = () => {
 		</>
 	);
 
-	const createDrink = () => {};
+	const createDrink = () => {
+		navigation.navigate("CreateDrink");
+	};
 
 	return (
 		<ViewWrapper>
