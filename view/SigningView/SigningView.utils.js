@@ -1,6 +1,6 @@
 export const initialRegisterCredentials = {
 	email: "",
-	firstname: "",
+	name: "",
 	password: "",
 };
 

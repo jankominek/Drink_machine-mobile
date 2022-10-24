@@ -27,13 +27,14 @@ export default function App() {
 			<StatusBar backgroundColor={colorPallete.darkBlue} style="light" />
 			<NavigationContainer>
 				<Stack.Navigator {...navigationOptions}>
-					{/* <Stack.Screen name="Sign" component={SigningView} /> */}
+					<Stack.Screen name="Sign" component={SigningView} />
 					<Stack.Screen name="Home" component={HomeView} />
 					<Stack.Screen name="CreateDrink" component={CreateDrinkView} />
 				</Stack.Navigator>
 			</NavigationContainer>
-			{/* <HomeView /> */}
+		 {/* <HomeView />  */}
 			{/* <VerifyView /> */}
 		</>
 	);
 }
+
