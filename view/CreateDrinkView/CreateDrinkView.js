@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Alert, Text } from "react-native";
 import { Input } from "../../components/Input/Input";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import {
@@ -23,6 +23,7 @@ import { colorPallete } from "../../utils/colorPallete";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "../../components/Button/Button";
+import { drinkColors } from "./CreateDrinkView.utis";
 
 export const CreateDrinkViewContainer = (props) => {
 	const [drinkName, setDrinkName] = useState("");
@@ -37,6 +38,13 @@ export const CreateDrinkViewContainer = (props) => {
 			const preparedData = setAlcoholList(response.data);
 		});
 	}, []);
+
+	// const addToFavorite = () => {
+	// 	const objectToSend = {
+	// 		drinkId:
+	// 	}
+	// 	axios.post("http://192.168.1.16:8080/addFavouriteDrink", )
+	// }
 
 	const onInputChange = (value, name) => {
 		setDrinkName(value);
@@ -75,6 +83,24 @@ export const CreateDrinkViewContainer = (props) => {
 	};
 
 	const onNextButtonClick = () => {
+		// if (viewNumber == 0) {
+		// 	if (!drinkName || !glassCapacity) {
+		// 		Alert.alert("Warning!", "Please fill all empty fields", [
+		// 			{ text: "Accept" },
+		// 		]);
+		// 		return;
+		// 	}
+		// }
+
+		// if (viewNumber == 1) {
+		// 	console.log("here");
+		// 	if (!selectedAlcohol.length) {
+		// 		Alert.alert("Warning!", "Please select minimum\none position", [
+		// 			{ text: "Accept" },
+		// 		]);
+		// 		return;
+		// 	}
+		// }
 		setViewNumber(viewNumber + 1);
 	};
 
@@ -131,55 +157,82 @@ export const CreateDrinkViewContainer = (props) => {
 					Select from list
 				</CreateDrinkTitle>
 			</ListTitle>
-			<Flex>
-				<Button
-					text="Back"
-					margin={10}
-					background={colorPallete.yellow}
-					onPress={() => setViewNumber(viewNumber - 1)}
-				/>
-				<Button
-					text="Next"
-					margin={10}
-					onPress={() => setViewNumber(viewNumber + 1)}
-					background={colorPallete.darkGreen}
-				/>
-			</Flex>
-			<AlcoholListWrapper>{drinkMap}</AlcoholListWrapper>
 			<Button
 				text="Clear"
-				margin={20}
+				margin={5}
 				onPress={() => {
 					setSelectedAlcohol([]);
 					setCurrentGlassCapacity(0);
 				}}
-				background={colorPallete.yellow}
+				background={colorPallete.red}
+				width="90%"
 			/>
+			<Flex>
+				<Button
+					text="Back"
+					background={colorPallete.gray}
+					onPress={() => setViewNumber(viewNumber - 1)}
+					width="44%"
+				/>
+				<Button
+					text="Next"
+					onPress={() => onNextButtonClick(viewNumber + 1)}
+					background={colorPallete.darkGreen}
+					width="44%"
+				/>
+			</Flex>
+			<AlcoholListWrapper>{drinkMap}</AlcoholListWrapper>
 		</>
 	);
 
 	const alcoholGlassList = selectedAlcohol.map((element, index) => {
 		const percentage = (element.ml / glassCapacity) * 100 + "%";
-		console.log(percentage);
+		const drink = drinkColors.filter(
+			(drink) => drink.name === element.name,
+		)?.[0];
 		return (
-			<GlassAlcohol height={percentage} index={index}>
+			<GlassAlcohol
+				height={percentage}
+				index={index}
+				background={drink ? drink.color : "gray"}
+			>
 				<Text>{element.name}</Text>
 			</GlassAlcohol>
 		);
 	});
 	const ChooseMililitersView = (
 		<StartDrinkWrapper>
+			<Button
+				text="Back"
+				background={colorPallete.gray}
+				onPress={() => setViewNumber(viewNumber - 1)}
+				width="44%"
+			/>
 			<Glass>{alcoholGlassList}</Glass>
+			<Flex>
+				<Button
+					text="Add to favorite"
+					background={colorPallete.green}
+					onPress={() => setViewNumber(viewNumber - 1)}
+					width="44%"
+				/>
+				<Button
+					text="Start"
+					background={colorPallete.green}
+					onPress={() => setViewNumber(viewNumber - 1)}
+					width="44%"
+				/>
+			</Flex>
 		</StartDrinkWrapper>
 	);
 
-	const a = [StartDrinkView, SelectDrinksView, ChooseMililitersView];
+	const views = [StartDrinkView, SelectDrinksView, ChooseMililitersView];
 
 	return (
 		<CreateDrinkViewWrapper
 			contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
 		>
-			{a[viewNumber]}
+			{views[viewNumber]}
 		</CreateDrinkViewWrapper>
 	);
 };

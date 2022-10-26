@@ -8,4 +8,5 @@ export const colorPallete = {
 	green: "#BDEBC9",
 	darkGreen: "#78CE8F",
 	yellow: "#FFE45E",
+	red: "#FF7070",
 };

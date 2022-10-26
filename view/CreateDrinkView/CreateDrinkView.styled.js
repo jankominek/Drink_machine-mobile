@@ -21,6 +21,13 @@ export const StartDrinkWrapper = styled.View`
 	justify-content: center;
 	align-items: center;
 `;
+
+export const GlassViewWrapper = styled.View`
+	width: 100%;
+	height: 100%;
+	border: 1px solid red;
+	justify-content: space-between;
+`;
 export const CreateDrinkTitle = styled.Text`
 	font-size: 20px;
 	color: ${({ color }) => (color ? color : colorPallete.white)};
@@ -28,7 +35,10 @@ export const CreateDrinkTitle = styled.Text`
 
 export const Flex = styled.View`
 	display: flex;
+	width: 90%;
+	margin-top: 10px;
 	flex-direction: row;
+	justify-content: space-between;
 `;
 export const ListTitle = styled.View`
 	width: 90%;
@@ -45,6 +55,7 @@ export const AlcoholListWrapper = styled.View`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	margin-top: 10px;
 	justify-content: space-between;
 `;
 
@@ -52,7 +63,7 @@ export const AlcoholElementBox = styled.TouchableOpacity`
 	display: flex;
 	width: ${windowWidth * 0.4}px;
 	height: 100px;
-	margin: ${windowWidth * 0.02}px;
+	margin: ${windowWidth * 0.02}px 0px;
 	border-radius: 5px;
 	align-items: center;
 	justify-content: center;
@@ -75,6 +86,7 @@ export const Glass = styled.View`
 	flex-direction: column;
 	justify-content: flex-end;
 	overflow: hidden;
+	margin: ${windowHeight * 0.1}px 0px;
 `;
 
 export const GlassAlcohol = styled.View`
@@ -84,6 +96,5 @@ export const GlassAlcohol = styled.View`
 	justify-content: center;
 	align-items: center;
 
-	background: ${({ index }) =>
-		`rgb(${150 - index * 20},${150 - index * 20},${150 - index * 20})`};
+	${({ background }) => `background: ${background}`};
 `;
