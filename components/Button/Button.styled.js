@@ -7,7 +7,7 @@ export const ButtonComponentWrapper = styled.TouchableOpacity`
 	align-items: center;
 	padding: 8px 10px;
 	border-radius: 5px;
-	background: ${colorPallete.white};
+	background: ${({ background }) => background || colorPallete.white};
 	${({ outline }) =>
 		outline &&
 		`

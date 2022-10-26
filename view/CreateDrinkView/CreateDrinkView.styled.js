@@ -5,39 +5,85 @@ import { colorPallete } from "../../utils/colorPallete";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export const CreateDrinkViewWrapper = styled.View`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+export const CreateDrinkViewWrapper = styled.ScrollView``;
+
+export const DrinkImage = styled.Image`
+	width: 230px;
+	height: 200px;
+	aspectratio: 1;
+	resizemode: contain;
+	margin-bottom: 20px;
 `;
 
-export const CreateDrinkFlex = styled.View`
-    display: flex;
-    margin: 10px 0px;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-evenly;
-    border-radius: 10px;
-`
+export const StartDrinkWrapper = styled.View`
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+`;
+export const CreateDrinkTitle = styled.Text`
+	font-size: 20px;
+	color: ${({ color }) => (color ? color : colorPallete.white)};
+`;
 
 export const Flex = styled.View`
-    width: ${windowWidth*0.3}
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-`
-
-export const CreateDrinkMlText = styled.Text`
-    font-size: 15px;
-    margin-left: 0px;
-    color: ${colorPallete.white};
-`
-
-export const PickerWrapper = styled.View`
-    overflow: hidden;
+	display: flex;
+	flex-direction: row;
+`;
+export const ListTitle = styled.View`
+	width: 90%;
+	marginBottom: 10px;
+	background: ${colorPallete.white}
     border-radius: 5px;
-    width: ${windowWidth*0.5}px;
-`
+	display: flex;
+	align-items: center;
+	padding: 10px 10px;
+`;
+
+export const AlcoholListWrapper = styled.View`
+	width: 90%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+`;
+
+export const AlcoholElementBox = styled.TouchableOpacity`
+	display: flex;
+	width: ${windowWidth * 0.4}px;
+	height: 100px;
+	margin: ${windowWidth * 0.02}px;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
+	background: ${({ background }) => background || colorPallete.white};
+`;
+
+export const AlcoholText = styled.Text`
+	font-size: 15px;
+	color: ${colorPallete.darkBlue};
+`;
+
+export const Glass = styled.View`
+	width: 50%;
+	height: 50%;
+	border-bottom-left-radius: 50px;
+	border-bottom-right-radius: 50px;
+	border-width: 5px;
+	border-color: ${colorPallete.white};
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	overflow: hidden;
+`;
+
+export const GlassAlcohol = styled.View`
+	width: 100%;
+	${({ height }) => height};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background: ${({ index }) =>
+		`rgb(${150 - index * 20},${150 - index * 20},${150 - index * 20})`};
+`;

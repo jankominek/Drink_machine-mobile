@@ -4,10 +4,23 @@ import { colorPallete } from "../../utils/colorPallete";
 import { InputWrapper, TextInputComponent } from "./Input.styled";
 
 export const Input = (props) => {
-	const { onChange, width, height, margin, placeholder, name, password } = props;
+	const {
+		onChange,
+		width,
+		height,
+		margin,
+		placeholder,
+		name,
+		password,
+		value,
+	} = props;
 	const [borderColor, setBorderColor] = React.useState("");
 
 	const [text, setText] = React.useState("");
+
+	React.useEffect(() => {
+		value && setText(value);
+	}, [value]);
 
 	const onChangeInput = (value) => {
 		setText(value);

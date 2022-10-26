@@ -8,10 +8,15 @@ import {
 } from "./Button.styled";
 
 export const Button = (props) => {
-	const { outline, text, margin, onPress } = props;
+	const { outline, text, margin, onPress, background } = props;
 
 	return (
-		<ButtonComponentWrapper outline={outline} margin={margin} onPress={onPress}>
+		<ButtonComponentWrapper
+			outline={outline}
+			margin={margin}
+			onPress={onPress}
+			background={background}
+		>
 			<ButtonContent outline={outline}>{text}</ButtonContent>
 		</ButtonComponentWrapper>
 	);
