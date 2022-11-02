@@ -12,21 +12,21 @@ import { SignCredentialContent } from "./SigningView.styled";
 import { initialRegisterCredentials } from "./SigningView.utils";
 
 export const Register = (props) => {
-
-	const {changeView} = props;
+	const { changeView } = props;
 
 	const [userCredentials, setUserCredentials] = useState(
 		initialRegisterCredentials,
 	);
 
 	const registerUser = (userData) => {
-		axios.post("http://192.168.1.11:8080/register", userData)
-			.then( (response) => {
-				if(response.status == 200){
+		axios
+			.post("http://192.168.1.16:8080/register", userData)
+			.then((response) => {
+				if (response.status == 200) {
 					changeView(true);
 				}
-			})
-	}
+			});
+	};
 
 	const onChangeCredentials = (value, name) => {
 		setUserCredentials({

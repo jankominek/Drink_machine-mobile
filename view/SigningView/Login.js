@@ -30,6 +30,11 @@ export const Login = (props) => {
 			userCredentials.email == "admin" &&
 			userCredentials.password == "adminpp"
 		) {
+			navigation.navigate("Admin");
+			return;
+		}
+
+		if (userCredentials.email == "User" && userCredentials.password == "user") {
 			navigation.navigate("Home");
 			return;
 		}
@@ -39,13 +44,14 @@ export const Login = (props) => {
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
 		if (!convertedToText) {
-			axios.post("http://192.168.1.11:8080/login", userCredentials)
-				.then( response => {
+			axios
+				.post("http://192.168.1.16:8080/login", userCredentials)
+				.then((response) => {
 					console.log(response.data);
-					if(response.status == 200){
+					if (response.status == 200) {
 						navigation.navigate("Home");
 					}
-				})
+				});
 		}
 	};
 

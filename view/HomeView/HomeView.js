@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Image, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
 import { Button } from "../../components/Button/Button";
 import { CardComponent } from "../../components/Card/Card";
@@ -7,6 +9,7 @@ import { Input } from "../../components/Input/Input";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
+import { initUser, userState } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
 import {
 	BannerContent,
@@ -18,6 +21,14 @@ import {
 } from "./HomeView.styled";
 
 const HomeViewContainer = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const selector = useSelector((state) => console.log(state.user));
+
+	console.log("selector: ", selector);
+	useEffect(() => {
+		dispatch(initUser({ email: "emaillll" }));
+	}, []);
+
 	const RecommendedDrinksContent = (
 		<>
 			<CardComponent icon="jameson" description="Jameson" />
@@ -56,6 +67,9 @@ const HomeViewContainer = ({ navigation }) => {
 		navigation.navigate("CreateDrink");
 	};
 
+	const openFavorite = () => {
+		navigation.navigate("Favorites");
+	};
 	return (
 		<ViewWrapper>
 			<BackdropMenu>
@@ -70,7 +84,7 @@ const HomeViewContainer = ({ navigation }) => {
 					</BannerWrapper>
 					<Flex>
 						<CardButton onClick={createDrink} text="Create" />
-						<CardButton onClick={createDrink} text="Favorite" />
+						<CardButton onClick={openFavorite} text="Favorite" />
 					</Flex>
 					<Section
 						sectionTitle="Recommended drinks"

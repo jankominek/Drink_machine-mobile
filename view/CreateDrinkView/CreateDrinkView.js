@@ -114,6 +114,8 @@ export const CreateDrinkViewContainer = (props) => {
 		return null;
 	};
 
+	const startDrink = () => {};
+
 	const drinkMap = alcoholList.map((alcohol) => (
 		<AlcoholElementBox
 			id={alcohol.alcoholID}
