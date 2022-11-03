@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "drink_machine-mobile",
 		"slug": "drink_machine-mobile",
-		"version": "1.0.0",
+		"version": "1.1.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "light",
@@ -19,14 +19,19 @@
 			"supportsTablet": true
 		},
 		"android": {
+			"package": "com.drink_machine_mobile",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
-			},
-			"package": "com.drink_machine_mobile"
+			}
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "4294b5e5-f2c2-4632-aefe-6d68ffbe5f89"
+			}
 		}
 	}
 }

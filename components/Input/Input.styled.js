@@ -3,6 +3,7 @@ import { colorPallete } from "../../utils/colorPallete";
 
 export const InputWrapper = styled.View`
 	${({ width }) => (width ? `width: ${width};` : `width: 60%;`)}
+	${({height}) => height ? `height: ${height};`: "height: 40px;"}
 	${({ margin }) => margin && `margin: ${margin}px;`}
 `;
 
@@ -11,7 +12,7 @@ export const TextInputComponent = styled.TextInput.attrs({
 })`
 	background: white;
 	border-radius: 5px;
-	height: 40px;
+	flex: 1;
 	padding: 0 10px;
 	background: transparent;
 	color: ${colorPallete.white};

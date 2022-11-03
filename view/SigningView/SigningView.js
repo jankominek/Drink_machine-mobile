@@ -27,19 +27,18 @@ export const SigningViewContainer = (props) => {
 		setIsLogin(!isLogin);
 	};
 
+	const changeView = (isLogin) => {
+		setIsLogin(isLogin);
+	}
+
 	return (
 		<ViewWrapper>
 			<SigningViewWrapper>
-				{/* <AdvertiseContentBox>
-					<AdvertiseText fontSize={30}>Make your</AdvertiseText>
-					<AdvertiseText fontSize={20}>Favourite</AdvertiseText>
-					<AdvertiseText fontSize={15}>drinks.</AdvertiseText>
-				</AdvertiseContentBox> */}
 				<AppTitleContent>
 					<AppTitleText>Drink Machine</AppTitleText>
 				</AppTitleContent>
 				<LogoContent source={require("../../assets/drinks.png")} />
-				{isLogin ? <Login isLogin /> : <Register />}
+				{isLogin ? <Login isLogin changeView={changeView}/> : <Register changeView={changeView}/>}
 			</SigningViewWrapper>
 			<SingOptionBox onPress={onChangeView}>
 				<SingOptionText>{isLogin ? "Register" : "Login"}</SingOptionText>

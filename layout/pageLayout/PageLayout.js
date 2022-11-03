@@ -1,4 +1,4 @@
-import { PageLayoutWrapper, ViewWrapper } from "./PageLayout.styled";
+import { PageLayoutWrapper } from "./PageLayout.styled";
 
 export const withLayout =
 	(View) =>

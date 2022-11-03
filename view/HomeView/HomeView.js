@@ -1,15 +1,101 @@
+import { useEffect } from "react";
 import { Image, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
 import { Button } from "../../components/Button/Button";
+import { CardComponent } from "../../components/Card/Card";
+import { CardButton } from "../../components/CardButton/CardButton";
 import { Input } from "../../components/Input/Input";
+import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
+import { initUser, userState } from "../../store/userReducer";
+import { colorPallete } from "../../utils/colorPallete";
+import {
+	BannerContent,
+	BannerLogo,
+	BannerText,
+	BannerWrapper,
+	Flex,
+	HomeViewContentContainer,
+} from "./HomeView.styled";
 
-const HomeViewContainer = () => {
+const HomeViewContainer = ({ navigation }) => {
+	const dispatch = useDispatch();
+	const selector = useSelector((state) => console.log(state.user));
+
+	console.log("selector: ", selector);
+	useEffect(() => {
+		dispatch(initUser({ email: "emaillll" }));
+	}, []);
+
+	const RecommendedDrinksContent = (
+		<>
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+		</>
+	);
+
+	const RecentlySelectedContent = (
+		<>
+			<CardComponent
+				backgroundColor={colorPallete.yellow}
+				icon="jameson"
+				description="Jameson"
+			/>
+			<CardComponent
+				backgroundColor={colorPallete.yellow}
+				icon="jameson"
+				description="Jameson"
+			/>
+			<CardComponent
+				backgroundColor={colorPallete.yellow}
+				icon="jameson"
+				description="Jameson"
+			/>
+			<CardComponent
+				backgroundColor={colorPallete.yellow}
+				icon="jameson"
+				description="Jameson"
+			/>
+		</>
+	);
+
+	const createDrink = () => {
+		navigation.navigate("CreateDrink");
+	};
+
+	const openFavorite = () => {
+		navigation.navigate("Favorites");
+	};
 	return (
 		<ViewWrapper>
-			<Text>Home Page View</Text>
-			<Input />
-			<Button outline text="asdas" />
+			<BackdropMenu>
+				<HomeViewContentContainer>
+					<BannerWrapper>
+						<BannerContent>
+							<BannerText fontSize={30}>Make your</BannerText>
+							<BannerText fontSize={20}>Favourite</BannerText>
+							<BannerText fontSize={15}>Drinks.</BannerText>
+							<BannerLogo source={require("../../assets/drinks2.png")} />
+						</BannerContent>
+					</BannerWrapper>
+					<Flex>
+						<CardButton onClick={createDrink} text="Create" />
+						<CardButton onClick={openFavorite} text="Favorite" />
+					</Flex>
+					<Section
+						sectionTitle="Recommended drinks"
+						content={RecommendedDrinksContent}
+					/>
+					<Section
+						sectionTitle="Recently selected"
+						content={RecentlySelectedContent}
+					/>
+				</HomeViewContentContainer>
+			</BackdropMenu>
 		</ViewWrapper>
 	);
 };
