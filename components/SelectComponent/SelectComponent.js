@@ -28,7 +28,6 @@ export const SelectComponent = (props) => {
 	));
 
 	const onSelectItemList = (item) => {
-		console.log(item);
 		setSelected(item.name);
 		setDropDown(false);
 		onSelect(item.id, name);

@@ -19,13 +19,11 @@ export const Register = (props) => {
 	);
 
 	const registerUser = (userData) => {
-		axios
-			.post("http://192.168.1.16:8080/register", userData)
-			.then((response) => {
-				if (response.status == 200) {
-					changeView(true);
-				}
-			});
+		axios.post("/register", userData).then((response) => {
+			if (response.status == 200) {
+				changeView(true);
+			}
+		});
 	};
 
 	const onChangeCredentials = (value, name) => {

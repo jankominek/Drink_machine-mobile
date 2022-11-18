@@ -42,7 +42,7 @@ export const Flex = styled.View`
 `;
 export const ListTitle = styled.View`
 	width: 90%;
-	marginBottom: 10px;
+	margin: 10px 0px;
 	background: ${colorPallete.white}
     border-radius: 5px;
 	display: flex;

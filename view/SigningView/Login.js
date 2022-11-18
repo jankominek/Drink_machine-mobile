@@ -2,8 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useState } from "react";
 import { Alert } from "react-native";
+import { useDispatch } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
+import { initUser } from "../../store/userReducer";
 import {
 	emailValidation,
 	signFormValidation,
@@ -17,6 +19,7 @@ export const Login = (props) => {
 		initialLoginCredentials,
 	);
 
+	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
 	const onChangeCredentials = (value, name) => {
@@ -44,14 +47,12 @@ export const Login = (props) => {
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
 		if (!convertedToText) {
-			axios
-				.post("http://192.168.1.16:8080/login", userCredentials)
-				.then((response) => {
-					console.log(response.data);
-					if (response.status == 200) {
-						navigation.navigate("Home");
-					}
-				});
+			axios.post("/login", userCredentials).then((response) => {
+				if (response.status == 200) {
+					dispatch(initUser(response.data));
+					navigation.navigate("Home");
+				}
+			});
 		}
 	};
 

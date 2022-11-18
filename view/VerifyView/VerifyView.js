@@ -13,9 +13,7 @@ import {
 export const VerifyViewContainer = () => {
 	const [code, setCode] = useState("");
 
-	const onCodeChange = (value, name) => {
-		console.log(value);
-	};
+	const onCodeChange = (value, name) => {};
 
 	return (
 		<VerifyViewWrapper>

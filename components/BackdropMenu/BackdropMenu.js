@@ -8,14 +8,21 @@ import {
 } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { colorPallete } from "../../utils/colorPallete";
+import { useSelector } from "react-redux";
+import { MenuBox, MenuItem, MenuItemBox } from "./BackdropMenu.styled";
+import { Entypo, Feather } from "@expo/vector-icons";
+
 export const BackdropMenu = ({ children }) => {
 	const [revealed, setRevealed] = useState(false);
+
+	const selector = useSelector((state) => state.user);
+
 	return (
 		<Backdrop
 			revealed={revealed}
 			header={
 				<AppBar
-					title="Hello, User"
+					title={"Hello, " + selector.name}
 					transparent
 					leading={(props) => (
 						<>
@@ -33,7 +40,16 @@ export const BackdropMenu = ({ children }) => {
 			}
 			style={{ backgroundColor: colorPallete.darkBlue }}
 			backLayer={
-				<View style={{ height: 200, backgroundColor: "transparent" }} />
+				<MenuBox>
+					<MenuItemBox>
+						<Feather name="settings" size={15} color="black" />
+						<MenuItem>Settings</MenuItem>
+					</MenuItemBox>
+					<MenuItemBox>
+						<Entypo name="drink" size={15} color="black" />
+						<MenuItem>Drinks</MenuItem>
+					</MenuItemBox>
+				</MenuBox>
 			}
 		>
 			{children}

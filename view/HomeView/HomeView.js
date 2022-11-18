@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useEffect } from "react";
+import React from "react";
 import { Image, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
@@ -6,6 +8,7 @@ import { Button } from "../../components/Button/Button";
 import { CardComponent } from "../../components/Card/Card";
 import { CardButton } from "../../components/CardButton/CardButton";
 import { Input } from "../../components/Input/Input";
+import { ModalNotificationBottom } from "../../components/ModalNotificationBottom/ModalNotificationBottom";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
@@ -20,14 +23,30 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
+import { useFocusEffect } from "@react-navigation/native";
+
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
-	const selector = useSelector((state) => console.log(state.user));
+	const selector = useSelector((state) => state.user);
+	const [showModal, setShowModal] = useState(false);
 
-	console.log("selector: ", selector);
-	useEffect(() => {
-		dispatch(initUser({ email: "emaillll" }));
-	}, []);
+	// useEffect(() => {
+	// 	if (selector?.drinkQueue.length !== 0) {
+	// 		setShowModal(true);
+	// 	} else {
+	// 		setShowModal(false);
+	// 	}
+	// }, [selector]);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			if (selector?.drinkQueue.length !== 0) {
+				setShowModal(true);
+			} else {
+				setShowModal(false);
+			}
+		}, [selector]),
+	);
 
 	const RecommendedDrinksContent = (
 		<>
@@ -96,6 +115,12 @@ const HomeViewContainer = ({ navigation }) => {
 					/>
 				</HomeViewContentContainer>
 			</BackdropMenu>
+			{showModal && (
+				<ModalNotificationBottom
+					isVisible={showModal}
+					text="You're 2 in queue"
+				/>
+			)}
 		</ViewWrapper>
 	);
 };

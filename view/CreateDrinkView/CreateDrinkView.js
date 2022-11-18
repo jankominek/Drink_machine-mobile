@@ -24,34 +24,51 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "../../components/Button/Button";
 import { drinkColors } from "./CreateDrinkView.utis";
+import { useDispatch, useSelector } from "react-redux";
+import { showNotification } from "../../utils/showNotification";
+import { addDrinkToQueue } from "../../store/userReducer";
 
-export const CreateDrinkViewContainer = (props) => {
+export const CreateDrinkViewContainer = ({ navigation }) => {
 	const [drinkName, setDrinkName] = useState("");
 	const [viewNumber, setViewNumber] = useState(0);
 	const [alcoholList, setAlcoholList] = useState([]);
 	const [selectedAlcohol, setSelectedAlcohol] = useState([]);
-	const [glassCapacity, setGlassCapacity] = useState(200);
+	const [glassCapacity, setGlassCapacity] = useState();
 	const [currentGlassCapacity, setCurrentGlassCapacity] = useState(0);
 
+	const dispatch = useDispatch();
+
+	const selector = useSelector((state) => state.user);
+
 	useEffect(() => {
-		axios.get("http://192.168.1.16:8080/getAllAlcohols").then((response) => {
-			const preparedData = setAlcoholList(response.data);
+		axios.get("/getAllAlcohols").then((response) => {
+			setAlcoholList(response.data);
 		});
 	}, []);
 
-	// const addToFavorite = () => {
-	// 	const objectToSend = {
-	// 		drinkId:
-	// 	}
-	// 	axios.post("http://192.168.1.16:8080/addFavouriteDrink", )
-	// }
+	const addToFavorite = () => {
+		const preparedAlcoholList = selectedAlcohol.map((element) => {
+			return { alcoholID: element.alcoholID, amount: element.ml };
+		});
+
+		const objectToSend = {
+			userId: selector.userID,
+			name: drinkName,
+			ingredients: preparedAlcoholList,
+		};
+		axios.post("/addFavouriteDrink", objectToSend).then(() => {
+			showNotification(
+				`Added to favorites`,
+				`Your drink ${drinkName} has been added to your favorite drinks`,
+			);
+		});
+	};
 
 	const onInputChange = (value, name) => {
 		setDrinkName(value);
 	};
 
 	const onAlcoholClick = (alcohol) => {
-		console.log(currentGlassCapacity);
 		if (currentGlassCapacity < glassCapacity) {
 			setCurrentGlassCapacity(currentGlassCapacity + 50);
 			const alreadyExist = selectedAlcohol.filter(
@@ -83,25 +100,34 @@ export const CreateDrinkViewContainer = (props) => {
 	};
 
 	const onNextButtonClick = () => {
-		// if (viewNumber == 0) {
-		// 	if (!drinkName || !glassCapacity) {
-		// 		Alert.alert("Warning!", "Please fill all empty fields", [
-		// 			{ text: "Accept" },
-		// 		]);
-		// 		return;
-		// 	}
-		// }
+		if (viewNumber == 0) {
+			if (!drinkName || !glassCapacity) {
+				Alert.alert("Warning!", "Please fill all empty fields", [
+					{ text: "Accept" },
+				]);
+				return;
+			}
+			if (glassCapacity % 50 !== 0) {
+				Alert.alert("Warning!", "Glass capacity can be only multiply of 50ml", [
+					{ text: "Accept" },
+				]);
+				return;
+			}
+		}
 
-		// if (viewNumber == 1) {
-		// 	console.log("here");
-		// 	if (!selectedAlcohol.length) {
-		// 		Alert.alert("Warning!", "Please select minimum\none position", [
-		// 			{ text: "Accept" },
-		// 		]);
-		// 		return;
-		// 	}
-		// }
+		if (viewNumber == 1) {
+			if (!selectedAlcohol.length) {
+				Alert.alert("Warning!", "Please select minimum\none position", [
+					{ text: "Accept" },
+				]);
+				return;
+			}
+		}
 		setViewNumber(viewNumber + 1);
+	};
+
+	const initViewValidation = () => {
+		return glassCapacity && drinkName;
 	};
 
 	const displayAmountOfAlcohol = (alcohol) => {
@@ -114,7 +140,23 @@ export const CreateDrinkViewContainer = (props) => {
 		return null;
 	};
 
-	const startDrink = () => {};
+	const startDrink = () => {
+		const preparedAlcoholList = selectedAlcohol.map((element) => {
+			return { alcoholID: element.alcoholID, amount: element.ml };
+		});
+
+		const objectToSend = {
+			userId: selector.userID,
+			name: drinkName,
+			ingredients: preparedAlcoholList,
+		};
+		showNotification(
+			`Prepare drink`,
+			`Your drink ${drinkName} will be ready in a few moments`,
+		);
+		dispatch(addDrinkToQueue({ drink: objectToSend }));
+		navigation.navigate("Home");
+	};
 
 	const drinkMap = alcoholList.map((alcohol) => (
 		<AlcoholElementBox
@@ -168,6 +210,7 @@ export const CreateDrinkViewContainer = (props) => {
 				}}
 				background={colorPallete.red}
 				width="90%"
+				outline
 			/>
 			<Flex>
 				<Button
@@ -215,13 +258,13 @@ export const CreateDrinkViewContainer = (props) => {
 				<Button
 					text="Add to favorite"
 					background={colorPallete.green}
-					onPress={() => setViewNumber(viewNumber - 1)}
+					onPress={addToFavorite}
 					width="44%"
 				/>
 				<Button
 					text="Start"
 					background={colorPallete.green}
-					onPress={() => setViewNumber(viewNumber - 1)}
+					onPress={startDrink}
 					width="44%"
 				/>
 			</Flex>
