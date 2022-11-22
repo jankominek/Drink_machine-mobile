@@ -24,19 +24,15 @@ import {
 } from "./HomeView.styled";
 
 import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
+import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
 
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state.user);
 	const [showModal, setShowModal] = useState(false);
-
-	// useEffect(() => {
-	// 	if (selector?.drinkQueue.length !== 0) {
-	// 		setShowModal(true);
-	// 	} else {
-	// 		setShowModal(false);
-	// 	}
-	// }, [selector]);
+	const [drinkModalData, setDrinkModalData] = useState();
+	const [showDrinkModal, setShowDrinkModal] = useState(false);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -48,6 +44,14 @@ const HomeViewContainer = ({ navigation }) => {
 		}, [selector]),
 	);
 
+	useFocusEffect(
+		React.useCallback(() => {
+			axios.get(`/getUserData/${selector.userID}`).then((response) => {
+				dispatch(initUser(response.data));
+			});
+		}, []),
+	);
+
 	const RecommendedDrinksContent = (
 		<>
 			<CardComponent icon="jameson" description="Jameson" />
@@ -57,28 +61,33 @@ const HomeViewContainer = ({ navigation }) => {
 		</>
 	);
 
+	const onPressCard = (element) => {
+		setDrinkModalData(element);
+		setShowDrinkModal(true);
+		console.log("element: ", element);
+		console.log("modal data : ", element);
+	};
+
+	// console.log(selector?.lastDrinks);
 	const RecentlySelectedContent = (
 		<>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
+			{selector?.lastDrinks?.map((element) => (
+				<CardComponent
+					backgroundColor={colorPallete.yellow}
+					description={element.name}
+					item={element}
+					onPress={onPressCard}
+				/>
+			))}
+		</>
+	);
+
+	const ReadyDrinks = (
+		<>
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
 		</>
 	);
 
@@ -89,6 +98,15 @@ const HomeViewContainer = ({ navigation }) => {
 	const openFavorite = () => {
 		navigation.navigate("Favorites");
 	};
+
+	const createDrinkModal = () => {};
+
+	const closeDrinkModal = () => {
+		setShowDrinkModal(false);
+		setDrinkModalData();
+	};
+
+	console.log("modal: ", showDrinkModal);
 	return (
 		<ViewWrapper>
 			<BackdropMenu>
@@ -105,10 +123,11 @@ const HomeViewContainer = ({ navigation }) => {
 						<CardButton onClick={createDrink} text="Create" />
 						<CardButton onClick={openFavorite} text="Favorite" />
 					</Flex>
-					<Section
+					{/* <Section
 						sectionTitle="Recommended drinks"
 						content={RecommendedDrinksContent}
-					/>
+					/> */}
+					<Section sectionTitle="Drinks" content={ReadyDrinks} />
 					<Section
 						sectionTitle="Recently selected"
 						content={RecentlySelectedContent}
@@ -120,6 +139,9 @@ const HomeViewContainer = ({ navigation }) => {
 					isVisible={showModal}
 					text="You're 2 in queue"
 				/>
+			)}
+			{showDrinkModal && drinkModalData && (
+				<DrinkModal data={drinkModalData} onClose={closeDrinkModal} />
 			)}
 		</ViewWrapper>
 	);

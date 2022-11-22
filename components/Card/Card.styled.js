@@ -3,7 +3,7 @@ import styled from "styled-components";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export const CardWrapper = styled.View`
+export const CardWrapper = styled.TouchableOpacity`
 	width: ${windowWidth / 3}px;
 	margin: 2px 10px;
 `;

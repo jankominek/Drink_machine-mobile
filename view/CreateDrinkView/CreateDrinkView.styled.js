@@ -5,7 +5,7 @@ import { colorPallete } from "../../utils/colorPallete";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export const CreateDrinkViewWrapper = styled.ScrollView``;
+export const CreateDrinkViewWrapper = styled.View``;
 
 export const DrinkImage = styled.Image`
 	width: 230px;

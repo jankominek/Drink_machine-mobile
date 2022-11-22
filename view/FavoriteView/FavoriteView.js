@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
 import { addDrinkToQueue } from "../../store/userReducer";
+import { getAxiosConfig } from "../../utils/axiosConfig";
 import { colorPallete } from "../../utils/colorPallete";
 import {
 	ButtonsContainer,
@@ -26,10 +28,14 @@ export const FavoriteViewContainer = () => {
 	const [selected, setSelected] = useState();
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
+	const user = useSelector((state) => state.user);
 
 	useEffect(() => {
-		setData(tempData);
-	}, []);
+		console.log(getAxiosConfig());
+		axios.get(`/getUserFavouriteDrinks/${user.userID}`).then((response) => {
+			setData(response.data);
+		});
+	}, [user]);
 
 	const onRemoveElement = (indexElement) => {
 		const filtered = data.filter((_, index) => index !== indexElement);

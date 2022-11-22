@@ -3,7 +3,7 @@ import { colorPallete } from "../../utils/colorPallete";
 
 export const SigningViewWrapper = styled.View`
 	display: flex;
-	height: 100%;
+	flex: 1;
 	justify-content: center;
 	align-items: center;
 `;

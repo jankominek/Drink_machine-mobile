@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
+import { initAxiosConfig } from "../../utils/axiosConfig";
 import {
 	emailValidation,
 	signFormValidation,
@@ -18,12 +19,23 @@ export const Register = (props) => {
 		initialRegisterCredentials,
 	);
 
+	const [ip, setIp] = useState("192.168.1.16");
+
 	const registerUser = (userData) => {
-		axios.post("/register", userData).then((response) => {
-			if (response.status == 200) {
-				changeView(true);
-			}
-		});
+		axios
+			.post("/register", userData)
+			.then((response) => {
+				if (response.status == 200) {
+					changeView(true);
+				}
+				if (response.status == 404) {
+				}
+			})
+			.catch((err) => {
+				Alert.alert("User already exists", convertedToText, [
+					{ text: "Accept" },
+				]);
+			});
 	};
 
 	const onChangeCredentials = (value, name) => {
@@ -33,14 +45,20 @@ export const Register = (props) => {
 		});
 	};
 	const onRegister = async () => {
+		initAxiosConfig(ip);
 		const validation = signFormValidation(userCredentials);
 		const convertedToText = validation.join("\n");
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
 		if (!convertedToText) {
-			await registerUser(userCredentials);
+			registerUser(userCredentials);
 		}
 	};
+
+	const onChangeIp = (value) => {
+		setIp(value);
+	};
+
 	return (
 		<SignCredentialContent>
 			<Input
@@ -62,6 +80,7 @@ export const Register = (props) => {
 				onChange={onChangeCredentials}
 				password
 			/>
+			<Input placeholder="Ip" margin={8} onChange={onChangeIp} />
 			<Button text="Register" margin={15} onPress={onRegister} />
 		</SignCredentialContent>
 	);

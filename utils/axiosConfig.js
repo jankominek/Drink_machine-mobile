@@ -1,5 +1,10 @@
 import axios from "axios";
 
-export const initAxiosConfig = () => {
-	axios.defaults.baseURL = "http://192.168.1.16:8080";
+export const initAxiosConfig = (ipAddress) => {
+	axios.defaults.baseURL =
+		`http://${ipAddress}:8080` || "http://localhost:8080";
+};
+
+export const getAxiosConfig = () => {
+	return axios.defaults.baseURL;
 };

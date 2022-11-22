@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { initUser } from "../../store/userReducer";
+import { initAxiosConfig } from "../../utils/axiosConfig";
 import {
 	emailValidation,
 	signFormValidation,
@@ -18,6 +19,7 @@ export const Login = (props) => {
 	const [userCredentials, setUserCredentials] = useState(
 		initialLoginCredentials,
 	);
+	const [ip, setIp] = useState("192.168.1.16");
 
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
@@ -29,6 +31,7 @@ export const Login = (props) => {
 		});
 	};
 	const onLogin = () => {
+		initAxiosConfig(ip || "192.168.1.16");
 		if (
 			userCredentials.email == "admin" &&
 			userCredentials.password == "adminpp"
@@ -56,6 +59,9 @@ export const Login = (props) => {
 		}
 	};
 
+	const onChangeIp = (value) => {
+		setIp(value);
+	};
 	return (
 		<SignCredentialContent>
 			<Input
@@ -71,6 +77,7 @@ export const Login = (props) => {
 				onChange={onChangeCredentials}
 				password
 			/>
+			<Input placeholder="Ip" margin={8} onChange={onChangeIp} />
 			<Button text="Login" margin={15} onPress={onLogin} />
 		</SignCredentialContent>
 	);

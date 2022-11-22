@@ -27,6 +27,7 @@ import { drinkColors } from "./CreateDrinkView.utis";
 import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "../../utils/showNotification";
 import { addDrinkToQueue } from "../../store/userReducer";
+import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
 
 export const CreateDrinkViewContainer = ({ navigation }) => {
 	const [drinkName, setDrinkName] = useState("");
@@ -35,6 +36,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 	const [selectedAlcohol, setSelectedAlcohol] = useState([]);
 	const [glassCapacity, setGlassCapacity] = useState();
 	const [currentGlassCapacity, setCurrentGlassCapacity] = useState(0);
+	const [favoriteOption, setFavoriteOption] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -46,22 +48,25 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 		});
 	}, []);
 
-	const addToFavorite = () => {
-		const preparedAlcoholList = selectedAlcohol.map((element) => {
-			return { alcoholID: element.alcoholID, amount: element.ml };
-		});
+	console.log(alcoholList);
 
-		const objectToSend = {
-			userId: selector.userID,
-			name: drinkName,
-			ingredients: preparedAlcoholList,
-		};
-		axios.post("/addFavouriteDrink", objectToSend).then(() => {
-			showNotification(
-				`Added to favorites`,
-				`Your drink ${drinkName} has been added to your favorite drinks`,
-			);
-		});
+	const addToFavorite = () => {
+		// const preparedAlcoholList = selectedAlcohol.map((element) => {
+		// 	return { alcoholID: element.alcoholID, amount: element.ml };
+		// });
+
+		// const objectToSend = {
+		// 	userId: selector.userID,
+		// 	name: drinkName,
+		// 	ingredients: preparedAlcoholList,
+		// };
+		// axios.post("/addFavouriteDrink", objectToSend).then(() => {
+		// 	showNotification(
+		// 		`Added to favorites`,
+		// 		`Your drink ${drinkName} has been added to your favorite drinks`,
+		// 	);
+		// });
+		setFavoriteOption(!favoriteOption);
 	};
 
 	const onInputChange = (value, name) => {
@@ -149,7 +154,14 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			userId: selector.userID,
 			name: drinkName,
 			ingredients: preparedAlcoholList,
+			addToFavourite: favoriteOption,
 		};
+		axios.post("/createDrink", objectToSend).catch(() => {
+			showNotification(
+				"Something went wrong!",
+				"Describe problem with administrator",
+			);
+		});
 		showNotification(
 			`Prepare drink`,
 			`Your drink ${drinkName} will be ready in a few moments`,
@@ -165,7 +177,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			background={() => checkIfIsSelected(alcohol)}
 		>
 			<Text>{displayAmountOfAlcohol(alcohol)}</Text>
-			<AlcoholText>{alcohol.name}</AlcoholText>
+			<AlcoholText>{alcohol.alcoholName}</AlcoholText>
 		</AlcoholElementBox>
 	));
 
@@ -233,7 +245,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 	const alcoholGlassList = selectedAlcohol.map((element, index) => {
 		const percentage = (element.ml / glassCapacity) * 100 + "%";
 		const drink = drinkColors.filter(
-			(drink) => drink.name === element.name,
+			(drink) => drink.name === element.alcoholName,
 		)?.[0];
 		return (
 			<GlassAlcohol
@@ -241,7 +253,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 				index={index}
 				background={drink ? drink.color : "gray"}
 			>
-				<Text>{element.name}</Text>
+				<Text>{element.alcoholName}</Text>
 			</GlassAlcohol>
 		);
 	});
@@ -257,7 +269,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			<Flex>
 				<Button
 					text="Add to favorite"
-					background={colorPallete.green}
+					background={favoriteOption ? colorPallete.green : colorPallete.gray}
 					onPress={addToFavorite}
 					width="44%"
 				/>
@@ -274,11 +286,11 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 	const views = [StartDrinkView, SelectDrinksView, ChooseMililitersView];
 
 	return (
-		<CreateDrinkViewWrapper
-			contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-		>
-			{views[viewNumber]}
-		</CreateDrinkViewWrapper>
+		// <CreateDrinkViewWrapper
+		// 	contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+		// >
+		<ViewWrapper>{views[viewNumber]}</ViewWrapper>
+		// </CreateDrinkViewWrapper>
 	);
 };
 

@@ -5,16 +5,19 @@ import { colorPallete } from "../../utils/colorPallete";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export const PageLayoutWrapper = styled.View`
-	width: ${windowWidth}px;
-	height: ${windowHeight - StatusBar.currentHeight}px;
+export const PageLayoutWrapper = styled.SafeAreaView`
+	flex: 1;
 	margin-top: ${StatusBar.currentHeight}px;
 	background: ${colorPallete.darkBlue};
+	box-sizing: border-box;
 `;
-
-export const ViewWrapper = styled.View`
+export const ScrollViewWrapper = styled.ScrollView`
 	flex: 1;
-	display: flex;
+`;
+export const ViewWrapper = styled.View`
+	width: ${windowWidth}px;
+	box-sizing: border-box;
+	height: ${windowHeight - StatusBar.currentHeight}px;
 	${({ center }) =>
 		center &&
 		`

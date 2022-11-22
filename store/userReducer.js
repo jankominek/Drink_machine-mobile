@@ -6,7 +6,6 @@ export const userState = createSlice({
 		userID: "",
 		name: "",
 		email: "",
-		verificationCode: "",
 		lastDrinks: [],
 		favouriteDrinks: [],
 		drinkQueue: [],
@@ -16,7 +15,6 @@ export const userState = createSlice({
 			state.email = action.payload.email;
 			state.userID = action.payload.userID;
 			state.name = action.payload.name;
-			state.verificationCode = action.payload.verificationCode;
 			state.lastDrinks = action.payload.lastDrinks;
 			state.favouriteDrinks = action.payload.favouriteDrinks;
 		},
