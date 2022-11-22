@@ -26,6 +26,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
+import { useMemo } from "react";
 
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -67,19 +68,30 @@ const HomeViewContainer = ({ navigation }) => {
 		console.log("element: ", element);
 		console.log("modal data : ", element);
 	};
-
+	const checkIfBelongToFav = (element) => {
+		const res = selector?.favouriteDrinks.filter(
+			(e) => e.drinkID === element.drinkID,
+		);
+		console.log("??:", res);
+		console.log(selector);
+		return res.length !== 0;
+	};
 	// console.log(selector?.lastDrinks);
-	const RecentlySelectedContent = (
-		<>
-			{selector?.lastDrinks?.map((element) => (
-				<CardComponent
-					backgroundColor={colorPallete.yellow}
-					description={element.name}
-					item={element}
-					onPress={onPressCard}
-				/>
-			))}
-		</>
+	const RecentlySelectedContent = useMemo(
+		() => (
+			<>
+				{selector?.lastDrinks?.map((element) => (
+					<CardComponent
+						backgroundColor={colorPallete.yellow}
+						description={element.name}
+						item={element}
+						isFavorite={checkIfBelongToFav(element)}
+						onPress={onPressCard}
+					/>
+				))}
+			</>
+		),
+		[selector?.favouriteDrinks],
 	);
 
 	const ReadyDrinks = (

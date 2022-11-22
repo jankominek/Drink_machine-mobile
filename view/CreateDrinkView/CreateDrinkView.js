@@ -289,7 +289,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 		// <CreateDrinkViewWrapper
 		// 	contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
 		// >
-		<ViewWrapper>{views[viewNumber]}</ViewWrapper>
+		<ViewWrapper centerTop>{views[viewNumber]}</ViewWrapper>
 		// </CreateDrinkViewWrapper>
 	);
 };

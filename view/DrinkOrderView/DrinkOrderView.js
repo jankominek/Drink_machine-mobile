@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
+import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
 import { removeDrinkFromQueue } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
 import {
@@ -30,9 +31,6 @@ export const DrinkOrderViewContainer = () => {
 		}
 	}, [selector]);
 
-	console.log("selected: ", selectedDrink);
-	console.log(selectedDrink?.name);
-
 	const ingredients = selectedDrink?.ingredients?.map((ingredient) => (
 		<IngredientBox>
 			<DrinkImage source={require("../../assets/finlandia.png")} />
@@ -41,32 +39,34 @@ export const DrinkOrderViewContainer = () => {
 		</IngredientBox>
 	));
 	return (
-		<DrinkOrderViewWrapper>
-			<DrinkOrderViewBox>
-				{selectedDrink && (
-					<>
-						<DrinkName>{selectedDrink?.name}</DrinkName>
-						<LineBlock />
-						{ingredients ? ingredients : null}
-						<ButtonsWrapper>
-							<Button
-								text="Back"
-								background={colorPallete.gray}
-								onPress={() => navigation.navigate("Home")}
-							/>
-							<Button
-								text="Cancel"
-								background={colorPallete.red}
-								onPress={() => {
-									dispatch(removeDrinkFromQueue({ drink: selectedDrink }));
-									navigation.navigate("Home");
-								}}
-							/>
-						</ButtonsWrapper>
-					</>
-				)}
-			</DrinkOrderViewBox>
-		</DrinkOrderViewWrapper>
+		<ViewWrapper>
+			<DrinkOrderViewWrapper>
+				<DrinkOrderViewBox>
+					{selectedDrink && (
+						<>
+							<DrinkName>{selectedDrink?.name}</DrinkName>
+							<LineBlock />
+							{ingredients ? ingredients : null}
+							<ButtonsWrapper>
+								<Button
+									text="Back"
+									background={colorPallete.gray}
+									onPress={() => navigation.navigate("Home")}
+								/>
+								<Button
+									text="Cancel"
+									background={colorPallete.red}
+									onPress={() => {
+										dispatch(removeDrinkFromQueue({ drink: selectedDrink }));
+										navigation.navigate("Home");
+									}}
+								/>
+							</ButtonsWrapper>
+						</>
+					)}
+				</DrinkOrderViewBox>
+			</DrinkOrderViewWrapper>
+		</ViewWrapper>
 	);
 };
 

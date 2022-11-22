@@ -39,9 +39,21 @@ export const FavoriteViewContainer = () => {
 
 	const onRemoveElement = (indexElement) => {
 		const filtered = data.filter((_, index) => index !== indexElement);
+		const selectedElement = data.filter(
+			(_, index) => index === indexElement,
+		)?.[0];
 		console.log(indexElement);
 		setData(filtered);
 		setSelected();
+		axios
+			.post("/deleteDrinkFromFavourite", {
+				userId: user.userID,
+				drinkId: selectedElement.drinkID,
+			})
+			.catch((error) => {
+				console.log(error);
+				s;
+			});
 	};
 
 	const elementToggle = (indexElement) => {
@@ -105,7 +117,7 @@ export const FavoriteViewContainer = () => {
 	));
 	return (
 		<FavoriteViewWrapper>
-			<ViewWrapper center>{favoriteDrinkList}</ViewWrapper>
+			<ViewWrapper>{favoriteDrinkList}</ViewWrapper>
 		</FavoriteViewWrapper>
 	);
 };

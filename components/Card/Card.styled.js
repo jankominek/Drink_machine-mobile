@@ -22,3 +22,10 @@ export const CardContent = styled.View`
 	justify-content: center;
 	align-items: center;
 `;
+
+export const HeartBox = styled.TouchableOpacity`
+	position: absolute;
+	z-index: 10;
+	bottom: 0;
+	left: 2px;
+`;

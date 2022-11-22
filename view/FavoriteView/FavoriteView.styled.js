@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { colorPallete } from "../../utils/colorPallete";
 
-export const FavoriteViewWrapper = styled.ScrollView`
+export const FavoriteViewWrapper = styled.View`
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 `;
 
 export const FavouriteElementBox = styled.TouchableOpacity`
-	width: 95%;
+	width: 100%;
 	background: ${colorPallete.white};
 	display: flex;
 	align-items: center;

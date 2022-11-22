@@ -18,6 +18,15 @@ export const userState = createSlice({
 			state.lastDrinks = action.payload.lastDrinks;
 			state.favouriteDrinks = action.payload.favouriteDrinks;
 		},
+		addDrinkToFavorite: (state, action) => {
+			state.favouriteDrinks = [...state.favouriteDrinks, action.payload];
+		},
+		removeDrinkFromFavorite: (state, action) => {
+			const filtered = state.favouriteDrinks.filter(
+				(e) => e.name !== action.payload.name,
+			);
+			state.favouriteDrinks = [filtered];
+		},
 		addDrinkToQueue: (state, action) => {
 			state.drinkQueue.push(action.payload.drink);
 		},
@@ -30,7 +39,12 @@ export const userState = createSlice({
 	},
 });
 
-export const { initUser, addDrinkToQueue, removeDrinkFromQueue } =
-	userState.actions;
+export const {
+	initUser,
+	addDrinkToQueue,
+	removeDrinkFromQueue,
+	addDrinkToFavorite,
+	removeDrinkFromFavorite,
+} = userState.actions;
 
 export default userState.reducer;

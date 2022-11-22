@@ -24,4 +24,10 @@ export const ViewWrapper = styled.View`
 		justify-content: center;
 		align-items: center;
 	`}
+
+	${({ centerTop }) =>
+		centerTop &&
+		`
+	align-items: center;
+	`}
 `;
