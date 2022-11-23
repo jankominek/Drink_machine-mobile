@@ -1,12 +1,19 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { colorPallete } from "../../utils/colorPallete";
+import { Dimensions } from "react-native";
 
-export const SigningViewWrapper = styled.View`
+export const windowWidth = Dimensions.get("window").width;
+export const windowHeight = Dimensions.get("window").height;
+
+export const SigningViewWrapper = styled.SafeAreaView`
+	height: ${windowHeight}px;
+	width: ${windowWidth}px;
 	display: flex;
-	flex: 1;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 `;
+
 export const AdvertiseContentBox = styled.View`
 	width: 100%;
 	display: flex;
@@ -15,8 +22,11 @@ export const AdvertiseContentBox = styled.View`
 
 export const SingOptionBox = styled.TouchableOpacity`
 	position: absolute;
-	bottom: 20px;
-	width: 100%;
+	bottom: ${windowHeight / 15}px;
+	width: ${windowWidth}px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 export const SingOptionText = styled.Text`

@@ -38,7 +38,6 @@ export default function App() {
 	return (
 		<NotifierWrapper>
 			<Provider store={store}>
-				{/* <StatusBar backgroundColor={colorPallete.darkBlue} style="light" /> */}
 				<NavigationContainer>
 					<Stack.Navigator {...navigationOptions}>
 						<Stack.Screen name="Sign" component={SigningView} />

@@ -29,7 +29,7 @@ export const SigningViewContainer = (props) => {
 
 	const changeView = (isLogin) => {
 		setIsLogin(isLogin);
-	}
+	};
 
 	return (
 		<ViewWrapper>
@@ -38,7 +38,11 @@ export const SigningViewContainer = (props) => {
 					<AppTitleText>Drink Machine</AppTitleText>
 				</AppTitleContent>
 				<LogoContent source={require("../../assets/drinks.png")} />
-				{isLogin ? <Login isLogin changeView={changeView}/> : <Register changeView={changeView}/>}
+				{isLogin ? (
+					<Login isLogin changeView={changeView} />
+				) : (
+					<Register changeView={changeView} />
+				)}
 			</SigningViewWrapper>
 			<SingOptionBox onPress={onChangeView}>
 				<SingOptionText>{isLogin ? "Register" : "Login"}</SingOptionText>
