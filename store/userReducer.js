@@ -36,6 +36,13 @@ export const userState = createSlice({
 			);
 			state.drinkQueue = filteredArray;
 		},
+		clearDb: (state) => {
+			state.email = "";
+			state.userID = "";
+			state.name = "";
+			state.lastDrinks = [];
+			state.favouriteDrinks = [];
+		},
 	},
 });
 
@@ -45,6 +52,7 @@ export const {
 	removeDrinkFromQueue,
 	addDrinkToFavorite,
 	removeDrinkFromFavorite,
+	clearDb,
 } = userState.actions;
 
 export default userState.reducer;

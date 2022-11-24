@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
 import {
@@ -22,10 +22,17 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Text, TouchableOpacity } from "react-native";
+import { clearDb } from "../../store/userReducer";
 
-export const UserProfileViewContainer = () => {
+export const UserProfileViewContainer = ({ navigation }) => {
 	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	console.log(user);
+
+	const logOut = () => {
+		dispatch(clearDb());
+		navigation.navigate("Sign");
+	};
 	return (
 		<ViewWrapper>
 			<UserProfileWrapper>
@@ -65,11 +72,9 @@ export const UserProfileViewContainer = () => {
 					</SettingsElement>
 				</SettingsBox>
 				<BottomBox>
-					<TouchableOpacity>
-						<LogOutButtonBox>
-							<LogOutBtn>Log out</LogOutBtn>
-						</LogOutButtonBox>
-					</TouchableOpacity>
+					<LogOutButtonBox onPress={logOut}>
+						<LogOutBtn>Log out</LogOutBtn>
+					</LogOutButtonBox>
 				</BottomBox>
 			</UserProfileWrapper>
 		</ViewWrapper>

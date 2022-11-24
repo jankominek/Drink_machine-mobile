@@ -23,10 +23,11 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
 import { useMemo } from "react";
+import { isUserLogged } from "../../utils/isUserLogged";
 
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -37,6 +38,9 @@ const HomeViewContainer = ({ navigation }) => {
 
 	useFocusEffect(
 		React.useCallback(() => {
+			console.log(selector);
+			!(selector?.name !== "" && selector?.email !== "") &&
+				navigation.navigate("Sign");
 			if (selector?.drinkQueue.length !== 0) {
 				setShowModal(true);
 			} else {
@@ -65,18 +69,13 @@ const HomeViewContainer = ({ navigation }) => {
 	const onPressCard = (element) => {
 		setDrinkModalData(element);
 		setShowDrinkModal(true);
-		console.log("element: ", element);
-		console.log("modal data : ", element);
 	};
 	const checkIfBelongToFav = (element) => {
 		const res = selector?.favouriteDrinks.filter(
 			(e) => e.drinkID === element.drinkID,
 		);
-		console.log("??:", res);
-		console.log(selector);
 		return res.length !== 0;
 	};
-	// console.log(selector?.lastDrinks);
 	const RecentlySelectedContent = useMemo(
 		() => (
 			<>
@@ -118,7 +117,6 @@ const HomeViewContainer = ({ navigation }) => {
 		setDrinkModalData();
 	};
 
-	console.log("modal: ", showDrinkModal);
 	return (
 		<ViewWrapper>
 			<BackdropMenu>
