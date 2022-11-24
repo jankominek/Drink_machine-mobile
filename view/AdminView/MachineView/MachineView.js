@@ -13,9 +13,7 @@ import {
 } from "./MachineView.styled";
 
 export const MachineViewContainer = () => {
-	const onSelect = (id, name) => {
-		console.log(id, name);
-	};
+	const onSelect = (id, name) => {};
 
 	const fields = [
 		"1 Position",

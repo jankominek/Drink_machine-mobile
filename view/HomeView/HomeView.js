@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useEffect } from "react";
+import React from "react";
 import { Image, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
@@ -6,6 +8,7 @@ import { Button } from "../../components/Button/Button";
 import { CardComponent } from "../../components/Card/Card";
 import { CardButton } from "../../components/CardButton/CardButton";
 import { Input } from "../../components/Input/Input";
+import { ModalNotificationBottom } from "../../components/ModalNotificationBottom/ModalNotificationBottom";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
@@ -20,14 +23,39 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
+import { useMemo } from "react";
+import { isUserLogged } from "../../utils/isUserLogged";
+
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
-	const selector = useSelector((state) => console.log(state.user));
+	const selector = useSelector((state) => state.user);
+	const [showModal, setShowModal] = useState(false);
+	const [drinkModalData, setDrinkModalData] = useState();
+	const [showDrinkModal, setShowDrinkModal] = useState(false);
 
-	console.log("selector: ", selector);
-	useEffect(() => {
-		dispatch(initUser({ email: "emaillll" }));
-	}, []);
+	useFocusEffect(
+		React.useCallback(() => {
+			console.log(selector);
+			!(selector?.name !== "" && selector?.email !== "") &&
+				navigation.navigate("Sign");
+			if (selector?.drinkQueue.length !== 0) {
+				setShowModal(true);
+			} else {
+				setShowModal(false);
+			}
+		}, [selector]),
+	);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			axios.get(`/getUserData/${selector.userID}`).then((response) => {
+				dispatch(initUser(response.data));
+			});
+		}, []),
+	);
 
 	const RecommendedDrinksContent = (
 		<>
@@ -38,28 +66,39 @@ const HomeViewContainer = ({ navigation }) => {
 		</>
 	);
 
-	const RecentlySelectedContent = (
+	const onPressCard = (element) => {
+		setDrinkModalData(element);
+		setShowDrinkModal(true);
+	};
+	const checkIfBelongToFav = (element) => {
+		const res = selector?.favouriteDrinks.filter(
+			(e) => e.drinkID === element.drinkID,
+		);
+		return res.length !== 0;
+	};
+	const RecentlySelectedContent = useMemo(
+		() => (
+			<>
+				{selector?.lastDrinks?.map((element) => (
+					<CardComponent
+						backgroundColor={colorPallete.yellow}
+						description={element.name}
+						item={element}
+						isFavorite={checkIfBelongToFav(element)}
+						onPress={onPressCard}
+					/>
+				))}
+			</>
+		),
+		[selector?.favouriteDrinks],
+	);
+
+	const ReadyDrinks = (
 		<>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
-			<CardComponent
-				backgroundColor={colorPallete.yellow}
-				icon="jameson"
-				description="Jameson"
-			/>
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" />
 		</>
 	);
 
@@ -70,6 +109,14 @@ const HomeViewContainer = ({ navigation }) => {
 	const openFavorite = () => {
 		navigation.navigate("Favorites");
 	};
+
+	const createDrinkModal = () => {};
+
+	const closeDrinkModal = () => {
+		setShowDrinkModal(false);
+		setDrinkModalData();
+	};
+
 	return (
 		<ViewWrapper>
 			<BackdropMenu>
@@ -86,16 +133,26 @@ const HomeViewContainer = ({ navigation }) => {
 						<CardButton onClick={createDrink} text="Create" />
 						<CardButton onClick={openFavorite} text="Favorite" />
 					</Flex>
-					<Section
+					{/* <Section
 						sectionTitle="Recommended drinks"
 						content={RecommendedDrinksContent}
-					/>
+					/> */}
+					<Section sectionTitle="Drinks" content={ReadyDrinks} />
 					<Section
 						sectionTitle="Recently selected"
 						content={RecentlySelectedContent}
 					/>
 				</HomeViewContentContainer>
 			</BackdropMenu>
+			{showModal && (
+				<ModalNotificationBottom
+					isVisible={showModal}
+					text="You're 2 in queue"
+				/>
+			)}
+			{showDrinkModal && drinkModalData && (
+				<DrinkModal data={drinkModalData} onClose={closeDrinkModal} />
+			)}
 		</ViewWrapper>
 	);
 };

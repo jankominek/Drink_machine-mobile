@@ -2,8 +2,11 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useState } from "react";
 import { Alert } from "react-native";
+import { useDispatch } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
+import { initUser } from "../../store/userReducer";
+import { initAxiosConfig } from "../../utils/axiosConfig";
 import {
 	emailValidation,
 	signFormValidation,
@@ -16,7 +19,9 @@ export const Login = (props) => {
 	const [userCredentials, setUserCredentials] = useState(
 		initialLoginCredentials,
 	);
+	const [ip, setIp] = useState("192.168.1.16");
 
+	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
 	const onChangeCredentials = (value, name) => {
@@ -26,6 +31,7 @@ export const Login = (props) => {
 		});
 	};
 	const onLogin = () => {
+		initAxiosConfig(ip || "192.168.1.16");
 		if (
 			userCredentials.email == "admin" &&
 			userCredentials.password == "adminpp"
@@ -44,17 +50,18 @@ export const Login = (props) => {
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
 		if (!convertedToText) {
-			axios
-				.post("http://192.168.1.16:8080/login", userCredentials)
-				.then((response) => {
-					console.log(response.data);
-					if (response.status == 200) {
-						navigation.navigate("Home");
-					}
-				});
+			axios.post("/login", userCredentials).then((response) => {
+				if (response.status == 200) {
+					dispatch(initUser(response.data));
+					navigation.navigate("Home");
+				}
+			});
 		}
 	};
 
+	const onChangeIp = (value) => {
+		setIp(value);
+	};
 	return (
 		<SignCredentialContent>
 			<Input
@@ -70,6 +77,7 @@ export const Login = (props) => {
 				onChange={onChangeCredentials}
 				password
 			/>
+			<Input placeholder="Ip" margin={8} onChange={onChangeIp} />
 			<Button text="Login" margin={15} onPress={onLogin} />
 		</SignCredentialContent>
 	);

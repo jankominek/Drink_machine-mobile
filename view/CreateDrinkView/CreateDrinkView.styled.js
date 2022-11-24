@@ -5,7 +5,7 @@ import { colorPallete } from "../../utils/colorPallete";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export const CreateDrinkViewWrapper = styled.ScrollView``;
+export const CreateDrinkViewWrapper = styled.View``;
 
 export const DrinkImage = styled.Image`
 	width: 230px;
@@ -42,7 +42,7 @@ export const Flex = styled.View`
 `;
 export const ListTitle = styled.View`
 	width: 90%;
-	marginBottom: 10px;
+	margin: 10px 0px;
 	background: ${colorPallete.white}
     border-radius: 5px;
 	display: flex;

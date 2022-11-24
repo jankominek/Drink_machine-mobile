@@ -13,12 +13,10 @@ export const signFormValidation = (credentials) => {
 			.map((key) => {
 				if (credentials[key].length == 0) return `${key} cannot be empty!`;
 				if (key == "firstname") {
-					console.log(credentials[key]);
 					return stringValidation(credentials[key])
 						? ""
 						: "First name should cointains only letters";
 				} else if (key == "email") {
-					console.log(credentials[key]);
 					return emailValidation(credentials[key])
 						? ""
 						: "E-mail address is incorrect";

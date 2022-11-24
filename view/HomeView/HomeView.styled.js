@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { colorPallete } from "../../utils/colorPallete";
 
 export const HomeViewContentContainer = styled.View`
@@ -41,6 +41,6 @@ export const BannerLogo = styled.Image`
 	right: 10%;
 	width: 115px;
 	height: 100px;
-	aspectratio: 1;
+	// aspectratio: 1;
 	resizemode: contain;
 `;

@@ -8,14 +8,28 @@ import {
 } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { colorPallete } from "../../utils/colorPallete";
+import { useSelector } from "react-redux";
+import { MenuBox, MenuItem, MenuItemBox } from "./BackdropMenu.styled";
+import { Entypo, Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
 export const BackdropMenu = ({ children }) => {
 	const [revealed, setRevealed] = useState(false);
+
+	const selector = useSelector((state) => state.user);
+	const navigation = useNavigation();
+
+
+	const onPressProfile = () => {
+		navigation.navigate("UserProfile");
+	}
 	return (
 		<Backdrop
 			revealed={revealed}
 			header={
 				<AppBar
-					title="Hello, User"
+					title={"Hello, " + selector.name}
 					transparent
 					leading={(props) => (
 						<>
@@ -33,7 +47,12 @@ export const BackdropMenu = ({ children }) => {
 			}
 			style={{ backgroundColor: colorPallete.darkBlue }}
 			backLayer={
-				<View style={{ height: 200, backgroundColor: "transparent" }} />
+				<MenuBox>
+					<MenuItemBox onPress={onPressProfile}>
+						<AntDesign name="user" size={15} color="black" />
+						<MenuItem>Profile</MenuItem>
+					</MenuItemBox>
+				</MenuBox>
 			}
 		>
 			{children}
