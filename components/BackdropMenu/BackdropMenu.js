@@ -11,12 +11,19 @@ import { colorPallete } from "../../utils/colorPallete";
 import { useSelector } from "react-redux";
 import { MenuBox, MenuItem, MenuItemBox } from "./BackdropMenu.styled";
 import { Entypo, Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const BackdropMenu = ({ children }) => {
 	const [revealed, setRevealed] = useState(false);
 
 	const selector = useSelector((state) => state.user);
+	const navigation = useNavigation();
 
+
+	const onPressProfile = () => {
+		navigation.navigate("UserProfile");
+	}
 	return (
 		<Backdrop
 			revealed={revealed}
@@ -41,13 +48,9 @@ export const BackdropMenu = ({ children }) => {
 			style={{ backgroundColor: colorPallete.darkBlue }}
 			backLayer={
 				<MenuBox>
-					<MenuItemBox>
-						<Feather name="settings" size={15} color="black" />
-						<MenuItem>Settings</MenuItem>
-					</MenuItemBox>
-					<MenuItemBox>
-						<Entypo name="drink" size={15} color="black" />
-						<MenuItem>Drinks</MenuItem>
+					<MenuItemBox onPress={onPressProfile}>
+						<AntDesign name="user" size={15} color="black" />
+						<MenuItem>Profile</MenuItem>
 					</MenuItemBox>
 				</MenuBox>
 			}

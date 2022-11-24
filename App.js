@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { initAxiosConfig } from "./utils/axiosConfig";
 import { NotifierWrapper } from "react-native-notifier";
 import { DrinkOrderView } from "./view/DrinkOrderView/DrinkOrderView";
+import { UserProfileView } from "./view/UserProfileView/UserProfileView";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ export default function App() {
 						<Stack.Screen name="Users" component={UsersView} />
 						<Stack.Screen name="Favorites" component={FavoriteView} />
 						<Stack.Screen name="DrinkOrder" component={DrinkOrderView} />
+						<Stack.Screen name="UserProfile" component={UserProfileView} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>
