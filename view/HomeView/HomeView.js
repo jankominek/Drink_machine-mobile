@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import React from "react";
 import { Image, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
 import { Button } from "../../components/Button/Button";
-import { CardComponent } from "../../components/Card/Card";
+import { CardComponent, MemoizedCard } from "../../components/Card/Card";
 import { CardButton } from "../../components/CardButton/CardButton";
 import { Input } from "../../components/Input/Input";
 import { ModalNotificationBottom } from "../../components/ModalNotificationBottom/ModalNotificationBottom";
@@ -38,7 +38,6 @@ const HomeViewContainer = ({ navigation }) => {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			console.log(selector);
 			!(selector?.name !== "" && selector?.email !== "") &&
 				navigation.navigate("Sign");
 			if (selector?.drinkQueue.length !== 0) {
@@ -70,35 +69,27 @@ const HomeViewContainer = ({ navigation }) => {
 		setDrinkModalData(element);
 		setShowDrinkModal(true);
 	};
-	const checkIfBelongToFav = (element) => {
-		const res = selector?.favouriteDrinks.filter(
-			(e) => e.drinkID === element.drinkID,
-		);
-		return res.length !== 0;
-	};
-	const RecentlySelectedContent = useMemo(
-		() => (
-			<>
-				{selector?.lastDrinks?.map((element) => (
-					<CardComponent
-						backgroundColor={colorPallete.yellow}
-						description={element.name}
-						item={element}
-						isFavorite={checkIfBelongToFav(element)}
-						onPress={onPressCard}
-					/>
-				))}
-			</>
-		),
-		[selector?.favouriteDrinks],
+
+	const RecentlySelectedContent = (
+		<>
+			{selector?.lastDrinks?.map((element, index) => (
+				<MemoizedCard
+					backgroundColor={colorPallete.yellow}
+					description={element.name}
+					item={element}
+					onPress={onPressCard}
+					index={index}
+				/>
+			))}
+		</>
 	);
 
 	const ReadyDrinks = (
 		<>
+			{/* <CardComponent icon="jameson" description="Jameson" />
 			<CardComponent icon="jameson" description="Jameson" />
 			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" /> */}
 		</>
 	);
 
