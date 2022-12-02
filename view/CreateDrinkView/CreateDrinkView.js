@@ -84,7 +84,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 		const result = selectedAlcohol.filter(
 			(oldElement) => oldElement.alcoholID === alcohol.alcoholID,
 		);
-		return result.length ? colorPallete.green : colorPallete.white;
+		return result.length ? colorPallete.greenSea : colorPallete.white;
 	};
 
 	const onNextButtonClick = () => {
@@ -203,9 +203,8 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 					setSelectedAlcohol([]);
 					setCurrentGlassCapacity(0);
 				}}
-				background={colorPallete.red}
+				background={colorPallete.greenSea}
 				width="90%"
-				outline
 			/>
 			<Flex>
 				<Button
@@ -252,13 +251,15 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			<Flex>
 				<Button
 					text="Add to favorite"
-					background={favoriteOption ? colorPallete.green : colorPallete.gray}
+					background={
+						favoriteOption ? colorPallete.greenSea : colorPallete.gray
+					}
 					onPress={addToFavorite}
 					width="44%"
 				/>
 				<Button
 					text="Start"
-					background={colorPallete.green}
+					background={colorPallete.greenSea}
 					onPress={startDrink}
 					width="44%"
 				/>

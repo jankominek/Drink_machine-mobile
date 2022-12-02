@@ -72,7 +72,7 @@ export const SettingsTextTitle = styled.Text`
 	color: ${colorPallete.textColorBackground};
 `;
 export const SettingsElement = styled.TouchableOpacity`
-	width: 90%;
+	width: 100%;
 	border-radius: 5px;
 	margin: 10px 0;
 	padding: 5px 5px;
@@ -88,6 +88,15 @@ export const SettingElementText = styled.Text`
 	padding: 8px 10px;
 	flex-grow: 1;
 	color: ${colorPallete.textColorBackground};
+`;
+
+export const SettingsBoxWrapper = styled.View`
+	width: 100%;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	background: ${colorPallete.backgroundDarkGray};
+	border-radius: 10px;
 `;
 
 export const BottomBox = styled.View`

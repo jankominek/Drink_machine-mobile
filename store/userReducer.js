@@ -51,6 +51,9 @@ export const userState = createSlice({
 			state.favouriteDrinks = [];
 			state.drinkQueue = [];
 		},
+		changeUserName: (state, action) => {
+			state.name = action.payload;
+		},
 		toggleBottomSheet: (state, action) => {
 			state.showBottomSheet = action.payload;
 			console.log("state changed: ", state.showBottomSheet);
@@ -67,6 +70,7 @@ export const {
 	clearDb,
 	updateDrinkQueue,
 	toggleBottomSheet,
+	changeUserName,
 } = userState.actions;
 
 export default userState.reducer;

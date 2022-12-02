@@ -77,7 +77,7 @@ export const FavoriteViewContainer = () => {
 					</FavoriteElementTitle>
 					<Button
 						text="Create"
-						background={colorPallete.darkGreen}
+						background={colorPallete.greenSea}
 						onPress={() => createDrink(element)}
 					/>
 				</>
@@ -101,12 +101,12 @@ export const FavoriteViewContainer = () => {
 					<ButtonsContainer>
 						<Button
 							text="Remove"
-							background={colorPallete.blockedRed}
+							background={colorPallete.darkLightGray}
 							onPress={() => onRemoveElement(index)}
 						/>
 						<Button
 							text="Create"
-							background={colorPallete.darkGreen}
+							background={colorPallete.greenSea}
 							onPress={() => createDrink(element)}
 						/>
 					</ButtonsContainer>
@@ -116,7 +116,7 @@ export const FavoriteViewContainer = () => {
 	));
 	return (
 		<FavoriteViewWrapper>
-			<ViewWrapper>{favoriteDrinkList}</ViewWrapper>
+			<ViewWrapper centerTop>{favoriteDrinkList}</ViewWrapper>
 		</FavoriteViewWrapper>
 	);
 };

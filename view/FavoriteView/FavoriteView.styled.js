@@ -8,8 +8,8 @@ export const FavoriteViewWrapper = styled.View`
 `;
 
 export const FavouriteElementBox = styled.TouchableOpacity`
-	width: 100%;
-	background: ${colorPallete.white};
+	width: 95%;
+	background: ${colorPallete.backgroundDarkGray};
 	display: flex;
 	align-items: center;
 	padding: 10px 10px;
@@ -25,7 +25,7 @@ export const FavoriteElementTitle = styled.Text`
 `;
 export const ButtonWrapper = styled.View`
 	flex-grow: 1;
-	border: 1px solid green;
+	border: 1px solid ${colorPallete.greenSea};
 `;
 
 export const DetailsViewContainer = styled.View`

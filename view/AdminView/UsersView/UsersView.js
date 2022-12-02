@@ -30,11 +30,31 @@ const UsersViewContainer = () => {
 		axios.post(`/blockUser/${userID}`).catch((err) => {
 			console.log(err);
 		});
+		const updatedArray = users.filter((e) => {
+			if (e.userID === userID) {
+				e.blocked = true;
+			}
+			return e;
+		});
+		setUsers([...updatedArray]);
+	};
+
+	const unblockUser = (userID) => {
+		axios.post(`/unblockUser/${userID}`).catch((err) => {
+			console.log(err);
+		});
+		const updatedArray = users.filter((e) => {
+			if (e.userID === userID) {
+				e.blocked = false;
+			}
+			return e;
+		});
+		setUsers([...updatedArray]);
 	};
 	const userList = users.map((user) => (
 		<UserField
 			background={
-				user.blocked ? colorPallete.blockedRed : colorPallete.nonBlockedGreen
+				user.blocked ? colorPallete.blockedRed : colorPallete.greenSea
 			}
 		>
 			<UserFieldNameBox>
@@ -42,7 +62,11 @@ const UsersViewContainer = () => {
 			</UserFieldNameBox>
 			<UserFieldButtons>
 				{user.blocked ? (
-					<Button text="Unlock" width="100%" />
+					<Button
+						text="Unlock"
+						width="100%"
+						onPress={() => unblockUser(user.userID)}
+					/>
 				) : (
 					<Button
 						text="Block"

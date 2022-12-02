@@ -30,7 +30,7 @@ export const GlassViewWrapper = styled.View`
 `;
 export const CreateDrinkTitle = styled.Text`
 	font-size: 20px;
-	color: ${({ color }) => (color ? color : colorPallete.white)};
+	color: ${({ color }) => (color ? color : colorPallete.textColorBackground)};
 `;
 
 export const Flex = styled.View`
@@ -72,7 +72,7 @@ export const AlcoholElementBox = styled.TouchableOpacity`
 
 export const AlcoholText = styled.Text`
 	font-size: 15px;
-	color: ${colorPallete.darkBlue};
+	color: ${colorPallete.textColorBackground};
 `;
 
 export const Glass = styled.View`
@@ -81,7 +81,7 @@ export const Glass = styled.View`
 	border-bottom-left-radius: 50px;
 	border-bottom-right-radius: 50px;
 	border-width: 5px;
-	border-color: ${colorPallete.white};
+	border-color: ${colorPallete.greenSea};
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
