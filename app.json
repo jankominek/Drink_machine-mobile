@@ -9,11 +9,11 @@
 		"splash": {
 			"image": "./assets/splash.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"backgroundColor": "#F8F8F8"
 		},
 		"androidStatusBar": {
 			"translucent": false,
-			"backgroundColor": "#24364E"
+			"backgroundColor": "#F5F5F5"
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0

@@ -11,14 +11,15 @@ export const ButtonComponentWrapper = styled.TouchableOpacity`
 	${({ outline }) =>
 		outline &&
 		`
-    border: 1px solid ${colorPallete.white};
+    border: 1px solid ${colorPallete.green};
     background: transparent;
     `}
+	${(props) => props.borderColor && `border: 1px solid ${props.borderColor}`};
 	${({ margin }) => margin && `margin: ${margin}px;`}
 	${({ width }) => (width ? `width: ${width};` : `width: 40%;`)};
 `;
 
 export const ButtonContent = styled.Text`
 	${({ outline }) =>
-		outline ? `color: ${colorPallete.white}` : `${colorPallete.darkBlue}`}
+		outline ? `color: ${colorPallete.gray}` : `${colorPallete.darkBlue}`}
 `;

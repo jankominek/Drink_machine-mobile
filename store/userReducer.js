@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import _ from "lodash";
 export const userState = createSlice({
 	name: "userState",
 	initialState: {
@@ -9,6 +9,7 @@ export const userState = createSlice({
 		lastDrinks: [],
 		favouriteDrinks: [],
 		drinkQueue: [],
+		showBottomSheet: true,
 	},
 	reducers: {
 		initUser: (state, action) => {
@@ -30,11 +31,17 @@ export const userState = createSlice({
 		addDrinkToQueue: (state, action) => {
 			state.drinkQueue.push(action.payload.drink);
 		},
+		updateDrinkQueue: (state, action) => {
+			if (!_.isEqual(state.drinkQueue, action.payload)) {
+				console.log("are not equal");
+				state.drinkQueue = action.payload;
+			}
+		},
 		removeDrinkFromQueue: (state, action) => {
-			const filteredArray = state.drinkQueue.filter(
-				(element) => element.name !== action.payload.drink.name,
-			);
-			state.drinkQueue = filteredArray;
+			// const filteredArray = state.drinkQueue.filter(
+			// 	(element) => element.name !== action.payload.drink.name,
+			// );
+			// state.drinkQueue = filteredArray;
 		},
 		clearDb: (state) => {
 			state.email = "";
@@ -42,6 +49,14 @@ export const userState = createSlice({
 			state.name = "";
 			state.lastDrinks = [];
 			state.favouriteDrinks = [];
+			state.drinkQueue = [];
+		},
+		changeUserName: (state, action) => {
+			state.name = action.payload;
+		},
+		toggleBottomSheet: (state, action) => {
+			state.showBottomSheet = action.payload;
+			console.log("state changed: ", state.showBottomSheet);
 		},
 	},
 });
@@ -53,6 +68,9 @@ export const {
 	addDrinkToFavorite,
 	removeDrinkFromFavorite,
 	clearDb,
+	updateDrinkQueue,
+	toggleBottomSheet,
+	changeUserName,
 } = userState.actions;
 
 export default userState.reducer;

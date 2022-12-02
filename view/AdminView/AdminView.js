@@ -3,6 +3,7 @@ import { Button } from "../../components/Button/Button";
 import { SelectComponent } from "../../components/SelectComponent/SelectComponent";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
+import { colorPallete } from "../../utils/colorPallete";
 import { AdminViewWrapper } from "./AdminView.styled";
 
 const AdminViewContainer = () => {
@@ -19,15 +20,15 @@ const AdminViewContainer = () => {
 					text="Machine"
 					margin={10}
 					width="80%"
-					outline
+					background={colorPallete.backgroundDarkGray}
 					onPress={onMachineClick}
 				/>
 				<Button
 					text="Users"
 					margin={10}
 					width="80%"
-					outline
 					onPress={onUsersClick}
+					background={colorPallete.backgroundDarkGray}
 				/>
 			</AdminViewWrapper>
 		</ViewWrapper>

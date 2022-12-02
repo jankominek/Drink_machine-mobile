@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { colorPallete } from "../../utils/colorPallete";
 import { Button } from "../Button/Button";
@@ -13,45 +13,45 @@ import {
 	ModalText,
 } from "./DrinkModal.styled";
 
-export const DrinkModal = ({ data, onClose }) => {
-	console.log("XXXX: ", data);
-
+export const DrinkModal = ({ data, onClose, parentHeight }) => {
 	const [addToFav, setAddToFav] = useState(false);
+	const [modalContentHeight, setModalContentHeight] = useState(0);
 
-	const ingredients = data.ingredients.map((element) => (
+	const ingredients = data?.ingredients.map((element) => (
 		<IngredientBox>
 			<IngredientElement>[element]</IngredientElement>
 			<IngredientElement>{element.amount}ml</IngredientElement>
 		</IngredientBox>
 	));
+
+	const height = parentHeight / 2 - 23;
 	return (
-		<DrinkModalWrapper>
-			<ModalBox>
-				<ModalContent>
-					<ModalText>{data.name}</ModalText>
-					<DescriptionContainer>{ingredients}</DescriptionContainer>
-					<Button
-						text="Add to favorite"
-						background={
-							addToFav ? colorPallete.nonBlockedGreen : colorPallete.gray
-						}
-						onPress={() => setAddToFav(!addToFav)}
-						margin={20}
-					/>
-				</ModalContent>
-				<ButtonContainer>
-					<Button
-						text="Close"
-						background={colorPallete.blockedRed}
-						onPress={onClose}
-					/>
-					<Button
-						text="Create"
-						background={colorPallete.nonBlockedGreen}
-						onPress={onClose}
-					/>
-				</ButtonContainer>
-			</ModalBox>
+		<DrinkModalWrapper height={height}>
+			<ModalContent
+				onLayout={(event) => {
+					var { x, y, width, height } = event.nativeEvent.layout;
+					setModalContentHeight(height);
+				}}
+			>
+				<ModalText>{data.name}</ModalText>
+				<DescriptionContainer>{ingredients}</DescriptionContainer>
+			</ModalContent>
+
+			<ButtonContainer
+				modalContentHeight={modalContentHeight}
+				parentHeight={height}
+			>
+				<Button
+					text="Remove"
+					background={colorPallete.backgroundGray}
+					onPress={onClose}
+				/>
+				<Button
+					text="Create"
+					background={colorPallete.backgroundGray}
+					onPress={onClose}
+				/>
+			</ButtonContainer>
 		</DrinkModalWrapper>
 	);
 };

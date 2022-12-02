@@ -1,36 +1,43 @@
 {
-	"name": "drink_machine-mobile",
-	"version": "1.1.0",
-	"main": "node_modules/expo/AppEntry.js",
-	"scripts": {
-		"start": "expo start",
-		"android": "expo start --android",
-		"ios": "expo start --ios",
-		"web": "expo start --web"
-	},
-	"dependencies": {
-		"@react-native-material/core": "^1.3.7",
-		"@react-native-picker/picker": "^2.4.8",
-		"@react-navigation/native": "*",
-		"@react-navigation/native-stack": "*",
-		"react-native-screens": "3.18.2",
-		"react-native-safe-area-context": "*",
-		"@reduxjs/toolkit": "^1.8.6",
-		"axios": "^0.26.1",
-		"expo": "~46.0.16",
-		"expo-dev-client": "~1.3.1",
-		"expo-status-bar": "~1.4.0",
-		"react": "18.0.0",
-		"react-native": "0.69.6",
-		"react-native-dropdown-picker": "^5.4.2",
-		"react-native-gesture-handler": "^2.8.0",
-		"react-native-notifier": "^1.9.0",
-		"react-native-paper": "^4.12.5",
-		"react-redux": "^8.0.4",
-		"styled-components": "^5.3.6"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.12.9"
-	},
-	"private": true
+  "name": "drink_machine-mobile",
+  "version": "1.1.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@gorhom/bottom-sheet": "^4.4.5",
+    "@react-native-material/core": "^1.3.7",
+    "@react-native-picker/picker": "^2.4.8",
+    "@react-navigation/native": "*",
+    "@react-navigation/native-stack": "*",
+    "@reduxjs/toolkit": "^1.8.6",
+    "axios": "^0.26.1",
+    "expo": "~46.0.16",
+    "expo-dev-client": "~1.3.1",
+    "expo-status-bar": "~1.4.0",
+    "lodash": "^4.17.21",
+    "react": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-dropdown-picker": "^5.4.2",
+    "react-native-gesture-handler": "^2.8.0",
+    "react-native-notifier": "^1.9.0",
+    "react-native-paper": "^4.12.5",
+    "react-native-reanimated": "^2.13.0",
+    "react-native-safe-area-context": "*",
+    "react-native-screens": "3.18.2",
+    "react-redux": "^8.0.4",
+    "react-stomp": "^5.1.0",
+    "socket.io-client": "^4.5.4",
+    "sockjs-client": "^1.6.1",
+    "styled-components": "^5.3.6",
+    "expo-linear-gradient": "~11.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true
 }

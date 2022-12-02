@@ -1,4 +1,5 @@
 import { Text } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { CardContent, CardWrapper, DrinkImage, HeartBox } from "./Card.styled";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
@@ -8,23 +9,30 @@ import {
 	addDrinkToFavorite,
 	removeDrinkFromFavorite,
 } from "../../store/userReducer";
+import { Selector } from "@react-native-material/core";
 
 export const CardComponent = (props) => {
-	const { backgroundColor, icon, description, onPress, item, isFavorite } =
-		props;
-
+	const { backgroundColor, icon, description, onPress, item, index } = props;
+	console.log(description + " rerender  " + index);
 	const chosedBgColor = backgroundColor ? backgroundColor : "white";
 	const user = useSelector((state) => state.user);
+	const [isFavorite, setIsFavorite] = useState(false);
 	const dispatch = useDispatch();
 
-	console.log(user, item);
+	useEffect(() => {
+		const res = user?.favouriteDrinks.filter(
+			(e) => e.drinkID === item.drinkID,
+		)?.[0];
+		if (res) {
+			setIsFavorite(true);
+		}
+	}, []);
+
 	const onPressCard = () => {
-		console.log("item: ", item);
 		onPress && onPress(item);
 	};
 
-	const addToFav = () => {
-		console.log("IS FAV : ", isFavorite);
+	const addToFav = useCallback(() => {
 		if (!isFavorite) {
 			item &&
 				axios
@@ -32,7 +40,7 @@ export const CardComponent = (props) => {
 						userId: user.userID,
 						drinkId: item.drinkID,
 					})
-					.then((resp) => console.log("added!"))
+					.then((resp) => setIsFavorite(true))
 					.catch((error) => {
 						console.log(error);
 					});
@@ -45,14 +53,14 @@ export const CardComponent = (props) => {
 						userId: user.userID,
 						drinkId: item.drinkID,
 					})
-					.then((resp) => console.log("added!"))
+					.then((resp) => setIsFavorite(false))
 					.catch((error) => {
 						console.log(error);
 					});
 
 			item && dispatch(removeDrinkFromFavorite(item));
 		}
-	};
+	}, [isFavorite]);
 	return (
 		<CardWrapper onPress={onPressCard}>
 			<Card
@@ -76,3 +84,8 @@ export const CardComponent = (props) => {
 		</CardWrapper>
 	);
 };
+
+export const MemoizedCard = React.memo(
+	CardComponent,
+	(prevState, nextState) => prevState !== nextState,
+);

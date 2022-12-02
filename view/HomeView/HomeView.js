@@ -1,19 +1,18 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import React from "react";
-import { Image, Text } from "react-native";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
-import { Button } from "../../components/Button/Button";
-import { CardComponent } from "../../components/Card/Card";
+import { CardComponent, MemoizedCard } from "../../components/Card/Card";
 import { CardButton } from "../../components/CardButton/CardButton";
-import { Input } from "../../components/Input/Input";
-import { ModalNotificationBottom } from "../../components/ModalNotificationBottom/ModalNotificationBottom";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
-import { initUser, userState } from "../../store/userReducer";
+import { initUser, toggleBottomSheet } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
+import BottomSheet, {
+	BottomSheetScrollView,
+	BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { LinearGradient } from "expo-linear-gradient";
 import {
 	BannerContent,
 	BannerLogo,
@@ -23,29 +22,28 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
-import { useMemo } from "react";
-import { isUserLogged } from "../../utils/isUserLogged";
 
-const HomeViewContainer = ({ navigation }) => {
+const HomeViewContainer = (props) => {
+	const { navigation, data } = props;
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state.user);
 	const [showModal, setShowModal] = useState(false);
 	const [drinkModalData, setDrinkModalData] = useState();
 	const [showDrinkModal, setShowDrinkModal] = useState(false);
+	const [homeContainerHeight, setHomeContainerHeight] = useState(0);
+
+	const sheetRef = useRef(null);
+	const viewRef = useRef(null);
+
+	const snapPoints = ["50%"];
 
 	useFocusEffect(
 		React.useCallback(() => {
-			console.log(selector);
 			!(selector?.name !== "" && selector?.email !== "") &&
 				navigation.navigate("Sign");
-			if (selector?.drinkQueue.length !== 0) {
-				setShowModal(true);
-			} else {
-				setShowModal(false);
-			}
 		}, [selector]),
 	);
 
@@ -69,36 +67,29 @@ const HomeViewContainer = ({ navigation }) => {
 	const onPressCard = (element) => {
 		setDrinkModalData(element);
 		setShowDrinkModal(true);
+		dispatch(toggleBottomSheet(false));
 	};
-	const checkIfBelongToFav = (element) => {
-		const res = selector?.favouriteDrinks.filter(
-			(e) => e.drinkID === element.drinkID,
-		);
-		return res.length !== 0;
-	};
-	const RecentlySelectedContent = useMemo(
-		() => (
-			<>
-				{selector?.lastDrinks?.map((element) => (
-					<CardComponent
-						backgroundColor={colorPallete.yellow}
-						description={element.name}
-						item={element}
-						isFavorite={checkIfBelongToFav(element)}
-						onPress={onPressCard}
-					/>
-				))}
-			</>
-		),
-		[selector?.favouriteDrinks],
+
+	const RecentlySelectedContent = (
+		<>
+			{selector?.lastDrinks?.map((element, index) => (
+				<MemoizedCard
+					backgroundColor={colorPallete.cardBackground}
+					description={element.name}
+					item={element}
+					onPress={onPressCard}
+					index={index}
+				/>
+			))}
+		</>
 	);
 
 	const ReadyDrinks = (
 		<>
+			{/* <CardComponent icon="jameson" description="Jameson" />
 			<CardComponent icon="jameson" description="Jameson" />
 			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
+			<CardComponent icon="jameson" description="Jameson" /> */}
 		</>
 	);
 
@@ -117,43 +108,69 @@ const HomeViewContainer = ({ navigation }) => {
 		setDrinkModalData();
 	};
 
+	const onPanClose = () => {
+		setShowDrinkModal(false);
+		dispatch(toggleBottomSheet(true));
+	};
 	return (
-		<ViewWrapper>
-			<BackdropMenu>
-				<HomeViewContentContainer>
-					<BannerWrapper>
-						<BannerContent>
-							<BannerText fontSize={30}>Make your</BannerText>
-							<BannerText fontSize={20}>Favourite</BannerText>
-							<BannerText fontSize={15}>Drinks.</BannerText>
-							<BannerLogo source={require("../../assets/drinks2.png")} />
-						</BannerContent>
-					</BannerWrapper>
-					<Flex>
-						<CardButton onClick={createDrink} text="Create" />
-						<CardButton onClick={openFavorite} text="Favorite" />
-					</Flex>
-					{/* <Section
+		<>
+			<ViewWrapper>
+				<BackdropMenu>
+					<HomeViewContentContainer
+						onLayout={(event) => {
+							var { x, y, width, height } = event.nativeEvent.layout;
+							setHomeContainerHeight(height);
+						}}
+					>
+						<BannerWrapper>
+							<BannerContent>
+								<BannerText fontSize={30}>Make your</BannerText>
+								<BannerText fontSize={20}>Favourite</BannerText>
+								<BannerText fontSize={15}>Drinks.</BannerText>
+								<BannerLogo source={require("../../assets/drinks2.png")} />
+							</BannerContent>
+						</BannerWrapper>
+						<Flex>
+							<CardButton onClick={createDrink} text="Create" />
+							<CardButton onClick={openFavorite} text="Favorite" />
+						</Flex>
+						{/* <Section
 						sectionTitle="Recommended drinks"
 						content={RecommendedDrinksContent}
 					/> */}
-					<Section sectionTitle="Drinks" content={ReadyDrinks} />
-					<Section
-						sectionTitle="Recently selected"
-						content={RecentlySelectedContent}
-					/>
-				</HomeViewContentContainer>
-			</BackdropMenu>
-			{showModal && (
-				<ModalNotificationBottom
-					isVisible={showModal}
-					text="You're 2 in queue"
-				/>
-			)}
-			{showDrinkModal && drinkModalData && (
-				<DrinkModal data={drinkModalData} onClose={closeDrinkModal} />
-			)}
-		</ViewWrapper>
+						{/* <Section sectionTitle="Drinks" content={ReadyDrinks} /> */}
+						<Section
+							sectionTitle="Recently selected"
+							content={RecentlySelectedContent}
+						/>
+						{drinkModalData && showDrinkModal && (
+							<BottomSheet
+								snapPoints={snapPoints}
+								ref={sheetRef}
+								handleStyle={{
+									backgroundColor: colorPallete.backgroundDarkGray,
+									marginBottom: -1,
+									borderTopLeftRadius: 20,
+									borderTopRightRadius: 20,
+								}}
+								enablePanDownToClose={true}
+								onClose={onPanClose}
+							>
+								<BottomSheetScrollView
+									backgroundColor={colorPallete.backgroundDarkGray}
+								>
+									<DrinkModal
+										data={drinkModalData}
+										onClose={closeDrinkModal}
+										parentHeight={homeContainerHeight}
+									/>
+								</BottomSheetScrollView>
+							</BottomSheet>
+						)}
+					</HomeViewContentContainer>
+				</BackdropMenu>
+			</ViewWrapper>
+		</>
 	);
 };
 

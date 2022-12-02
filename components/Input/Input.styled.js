@@ -3,7 +3,7 @@ import { colorPallete } from "../../utils/colorPallete";
 
 export const InputWrapper = styled.View`
 	${({ width }) => (width ? `width: ${width};` : `width: 60%;`)}
-	${({height}) => height ? `height: ${height};`: "height: 40px;"}
+	${({ height }) => (height ? `height: ${height};` : "height: 40px;")}
 	${({ margin }) => margin && `margin: ${margin}px;`}
 `;
 
@@ -15,14 +15,15 @@ export const TextInputComponent = styled.TextInput.attrs({
 	flex: 1;
 	padding: 0 10px;
 	background: transparent;
-	color: ${colorPallete.white};
+	color: ${colorPallete.darkBlue};
 	${({ borderColor }) =>
-		borderColor.length
+		borderColor
 			? `
 		border: 2px solid ${borderColor};
 	`
-			: `border: 1px solid white;`}
+			: `border: 1px solid ${colorPallete.gray};`}
 	&:focus {
 		outline: none;
+		border: 1px solid ${colorPallete.gray};
 	}
 `;

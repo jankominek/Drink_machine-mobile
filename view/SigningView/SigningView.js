@@ -1,5 +1,9 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
@@ -18,10 +22,20 @@ import {
 	SingOptionBox,
 	SingOptionText,
 } from "./SigningView.styled";
+import { clearDb } from "../../store/userReducer";
 
-export const SigningViewContainer = (props) => {
+export const SigningViewContainer = ({ navigation }) => {
 	const [userCredential, setUserCredential] = useState({});
 	const [isLogin, setIsLogin] = useState(true);
+	const dispatch = useDispatch();
+	const selector = useSelector((state) => state.user);
+
+	console.log(selector);
+	useFocusEffect(
+		React.useCallback(() => {
+			dispatch(clearDb());
+		}, []),
+	);
 
 	const onChangeView = () => {
 		setIsLogin(!isLogin);

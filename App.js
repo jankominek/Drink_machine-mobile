@@ -20,6 +20,11 @@ import { initAxiosConfig } from "./utils/axiosConfig";
 import { NotifierWrapper } from "react-native-notifier";
 import { DrinkOrderView } from "./view/DrinkOrderView/DrinkOrderView";
 import { UserProfileView } from "./view/UserProfileView/UserProfileView";
+import { useState } from "react";
+import { ModalNotificationBottom } from "./components/ModalNotificationBottom/ModalNotificationBottom";
+import SockJsClient from "react-stomp";
+import { NotificationBottomProvider } from "./NotificationBottomProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,22 +42,26 @@ export default function App() {
 		initAxiosConfig();
 	}, []);
 	return (
-		<NotifierWrapper>
-			<Provider store={store}>
-				<NavigationContainer>
-					<Stack.Navigator {...navigationOptions}>
-						<Stack.Screen name="Sign" component={SigningView} />
-						<Stack.Screen name="Home" component={HomeView} />
-						<Stack.Screen name="CreateDrink" component={CreateDrinkView} />
-						<Stack.Screen name="Admin" component={AdminView} />
-						<Stack.Screen name="Machine" component={MachineView} />
-						<Stack.Screen name="Users" component={UsersView} />
-						<Stack.Screen name="Favorites" component={FavoriteView} />
-						<Stack.Screen name="DrinkOrder" component={DrinkOrderView} />
-						<Stack.Screen name="UserProfile" component={UserProfileView} />
-					</Stack.Navigator>
-				</NavigationContainer>
-			</Provider>
-		</NotifierWrapper>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<NotifierWrapper>
+				<Provider store={store}>
+					<NavigationContainer>
+						<NotificationBottomProvider>
+							<Stack.Navigator {...navigationOptions}>
+								<Stack.Screen name="Sign" component={SigningView} />
+								<Stack.Screen name="Home" component={HomeView} />
+								<Stack.Screen name="CreateDrink" component={CreateDrinkView} />
+								<Stack.Screen name="Admin" component={AdminView} />
+								<Stack.Screen name="Machine" component={MachineView} />
+								<Stack.Screen name="Users" component={UsersView} />
+								<Stack.Screen name="Favorites" component={FavoriteView} />
+								<Stack.Screen name="DrinkOrder" component={DrinkOrderView} />
+								<Stack.Screen name="UserProfile" component={UserProfileView} />
+							</Stack.Navigator>
+						</NotificationBottomProvider>
+					</NavigationContainer>
+				</Provider>
+			</NotifierWrapper>
+		</GestureHandlerRootView>
 	);
 }

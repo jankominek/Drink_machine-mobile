@@ -6,9 +6,11 @@ import {
 	ButtonContainer,
 	ButtonContent,
 } from "./Button.styled";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const Button = (props) => {
-	const { outline, text, margin, onPress, background, width } = props;
+	const { outline, text, margin, onPress, background, width, borderColor } =
+		props;
 
 	return (
 		<ButtonComponentWrapper
@@ -17,6 +19,7 @@ export const Button = (props) => {
 			onPress={onPress}
 			background={background}
 			width={width}
+			borderColor={borderColor}
 		>
 			<ButtonContent outline={outline}>{text}</ButtonContent>
 		</ButtonComponentWrapper>
