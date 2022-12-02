@@ -27,7 +27,6 @@ const UsersViewContainer = () => {
 	}, []);
 
 	const blockUser = (userID) => {
-		console.log("userid: ", userID);
 		axios.post(`/blockUser/${userID}`).catch((err) => {
 			console.log(err);
 		});

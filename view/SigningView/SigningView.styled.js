@@ -31,7 +31,7 @@ export const SingOptionBox = styled.TouchableOpacity`
 
 export const SingOptionText = styled.Text`
 	text-align: center;
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 	font-size: 15px;
 	letter-spacing: 1px;
 `;
@@ -39,7 +39,7 @@ export const SingOptionText = styled.Text`
 export const AdvertiseText = styled.Text`
 	${({ fontSize }) => `font-size: ${fontSize}px;`}
 	font-weight: bold;
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 	margin: 5px;
 `;
 
@@ -52,7 +52,7 @@ export const AppTitleContent = styled.View`
 `;
 
 export const AppTitleText = styled.Text`
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 	font-weight: bold;
 	font-size: 30px;
 `;
@@ -65,7 +65,10 @@ export const LogoContent = styled.Image`
 	margin-bottom: 20px;
 `;
 export const SignCredentialContent = styled.View`
-	width: 100%;
+	width: 90%;
+	padding: 5%;
+	background: ${colorPallete.background};
+	border-radius: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

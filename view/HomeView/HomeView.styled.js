@@ -3,15 +3,15 @@ import { colorPallete } from "../../utils/colorPallete";
 
 export const HomeViewContentContainer = styled.View`
 	flex: 1;
-	background: ${colorPallete.background};
+	background: ${colorPallete.backgroundGray};
 	align-items: center;
 `;
 
 export const BannerWrapper = styled.View`
 	width: 95%;
 	height: 130px;
-    background: ${colorPallete.orange}
-	border-radius: 5px;
+    background: ${colorPallete.background}
+	border-radius: 10px;
 	margin: 20px 0px;
 `;
 
@@ -31,7 +31,7 @@ export const BannerContent = styled.View`
 export const BannerText = styled.Text`
 	${({ fontSize }) => `font-size: ${fontSize}px;`}
 	font-weight: bold;
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 	margin: 1px 20px;
 `;
 

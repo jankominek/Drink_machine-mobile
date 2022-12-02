@@ -7,7 +7,7 @@ const windowHeight = Dimensions.get("window").height;
 
 export const PageLayoutWrapper = styled.SafeAreaView`
 	flex: 1;
-	background: ${colorPallete.darkBlue};
+	background: ${colorPallete.backgroundGray};
 	box-sizing: border-box;
 `;
 export const ScrollViewWrapper = styled.ScrollView`

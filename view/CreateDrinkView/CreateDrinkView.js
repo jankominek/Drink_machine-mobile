@@ -48,24 +48,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 		});
 	}, []);
 
-	console.log(alcoholList);
-
 	const addToFavorite = () => {
-		// const preparedAlcoholList = selectedAlcohol.map((element) => {
-		// 	return { alcoholID: element.alcoholID, amount: element.ml };
-		// });
-
-		// const objectToSend = {
-		// 	userId: selector.userID,
-		// 	name: drinkName,
-		// 	ingredients: preparedAlcoholList,
-		// };
-		// axios.post("/addFavouriteDrink", objectToSend).then(() => {
-		// 	showNotification(
-		// 		`Added to favorites`,
-		// 		`Your drink ${drinkName} has been added to your favorite drinks`,
-		// 	);
-		// });
 		setFavoriteOption(!favoriteOption);
 	};
 
@@ -166,7 +149,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			`Prepare drink`,
 			`Your drink ${drinkName} will be ready in a few moments`,
 		);
-		dispatch(addDrinkToQueue({ drink: objectToSend }));
+		// dispatch(addDrinkToQueue({ drink: objectToSend }));
 		navigation.navigate("Home");
 	};
 

@@ -10,7 +10,7 @@ export const CardButtonWrapper = styled.TouchableOpacity`
 	align-items: center;
 	flex: 1;
 	margin: 0px 2.5%;
-	background: ${colorPallete.orange};
+	background: #019875;
 	border-radius: 5px;
 	height: 40px;
 `;

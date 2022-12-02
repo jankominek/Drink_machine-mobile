@@ -31,7 +31,6 @@ export const FavoriteViewContainer = () => {
 	const user = useSelector((state) => state.user);
 
 	useEffect(() => {
-		console.log(getAxiosConfig());
 		axios.get(`/getUserFavouriteDrinks/${user.userID}`).then((response) => {
 			setData(response.data);
 		});
@@ -42,7 +41,7 @@ export const FavoriteViewContainer = () => {
 		const selectedElement = data.filter(
 			(_, index) => index === indexElement,
 		)?.[0];
-		console.log(indexElement);
+
 		setData(filtered);
 		setSelected();
 		axios

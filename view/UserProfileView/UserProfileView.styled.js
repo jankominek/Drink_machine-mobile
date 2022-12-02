@@ -26,13 +26,14 @@ export const UserIconNameBox = styled.View`
 	display: flex;
     margin-left: 10px;
 	justify-content: center;
-	background: ${colorPallete.white}
+	background: ${colorPallete.textColorBackground}
 	align-items: center;
 	border-radius: ${windowWidth / 3 / 2}px;
 `;
 
 export const UserNameText = styled.Text`
 	font-size: 25px;
+	color: ${colorPallete.white};
 `;
 
 export const Flex = styled.View`
@@ -49,12 +50,12 @@ export const UserInfoBox = styled.View`
 export const UserProfileName = styled.Text`
 	font-size: 22px;
 	margin: 0 15px;
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 `;
 
 export const UserProfileEmail = styled(UserProfileName)`
 	font-size: 15px;
-	color: ${colorPallete.gray};
+	color: ${colorPallete.textColorBackground};
 `;
 
 export const SettingsBox = styled.View`
@@ -68,7 +69,7 @@ export const SettingsBox = styled.View`
 `;
 export const SettingsTextTitle = styled.Text`
 	width: 100%;
-	color: ${colorPallete.gray};
+	color: ${colorPallete.textColorBackground};
 `;
 export const SettingsElement = styled.TouchableOpacity`
 	width: 90%;
@@ -86,7 +87,7 @@ export const SettingElementText = styled.Text`
 	font-size: 15px;
 	padding: 8px 10px;
 	flex-grow: 1;
-	color: ${colorPallete.darkBlue};
+	color: ${colorPallete.textColorBackground};
 `;
 
 export const BottomBox = styled.View`
@@ -103,6 +104,6 @@ export const LogOutButtonBox = styled.TouchableOpacity`
 `;
 export const LogOutBtn = styled.Text`
 	font-size: 15px;
-	color: ${colorPallete.darkBlue};
+	color: ${colorPallete.textColorBackground};
 	padding: 8px 25px;
 `;

@@ -20,17 +20,16 @@ export const BackdropMenu = ({ children }) => {
 	const selector = useSelector((state) => state.user);
 	const navigation = useNavigation();
 
-
 	const onPressProfile = () => {
 		navigation.navigate("UserProfile");
-	}
+	};
 	return (
 		<Backdrop
 			revealed={revealed}
 			header={
 				<AppBar
+					color={colorPallete.backgroundGray}
 					title={"Hello, " + selector.name}
-					transparent
 					leading={(props) => (
 						<>
 							<IconButton
@@ -45,7 +44,7 @@ export const BackdropMenu = ({ children }) => {
 					style={{ borderBottomColor: "green" }}
 				/>
 			}
-			style={{ backgroundColor: colorPallete.darkBlue }}
+			style={{ backgroundColor: colorPallete.white }}
 			backLayer={
 				<MenuBox>
 					<MenuItemBox onPress={onPressProfile}>

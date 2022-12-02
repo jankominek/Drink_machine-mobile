@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colorPallete } from "../../utils/colorPallete";
 
-export const ModalNotificationBottomWrapper = styled.TouchableOpacity`
+export const ModalNotificationBottomWrapper = styled.View`
 	position: absolute;
 	width: 95%;
 	display: flex;
@@ -10,12 +10,19 @@ export const ModalNotificationBottomWrapper = styled.TouchableOpacity`
 	justify-content: center;
 	background: ${colorPallete.white};
 	margin-left: 2.5%;
-	margin-bottom: 10px;
-	border-radius: 5px;
-	padding: 10px;
+	border-top-left-radius: 50px;
+	border-top-right-radius: 50px;
 	bottom: 0;
 `;
 
+export const Line = styled.View`
+	position: absolute;
+	top: 5px;
+	width: 20%;
+	height: 5px;
+	background: gray;
+	border-radius: 50px;
+`;
 export const ModalTitle = styled.Text`
 	flex: 1;
 `;

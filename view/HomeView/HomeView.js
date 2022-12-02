@@ -1,19 +1,18 @@
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
-import React from "react";
-import { Image, Text } from "react-native";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BackdropMenu } from "../../components/BackdropMenu/BackdropMenu";
-import { Button } from "../../components/Button/Button";
 import { CardComponent, MemoizedCard } from "../../components/Card/Card";
 import { CardButton } from "../../components/CardButton/CardButton";
-import { Input } from "../../components/Input/Input";
-import { ModalNotificationBottom } from "../../components/ModalNotificationBottom/ModalNotificationBottom";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
-import { initUser, userState } from "../../store/userReducer";
+import { initUser } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
+import BottomSheet, {
+	BottomSheetScrollView,
+	BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { LinearGradient } from "expo-linear-gradient";
 import {
 	BannerContent,
 	BannerLogo,
@@ -23,11 +22,9 @@ import {
 	HomeViewContentContainer,
 } from "./HomeView.styled";
 
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
-import { useMemo } from "react";
-import { isUserLogged } from "../../utils/isUserLogged";
 
 const HomeViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -36,15 +33,14 @@ const HomeViewContainer = ({ navigation }) => {
 	const [drinkModalData, setDrinkModalData] = useState();
 	const [showDrinkModal, setShowDrinkModal] = useState(false);
 
+	const sheetRef = useRef(null);
+
+	const snapPoints = ["50%"];
+
 	useFocusEffect(
 		React.useCallback(() => {
 			!(selector?.name !== "" && selector?.email !== "") &&
 				navigation.navigate("Sign");
-			if (selector?.drinkQueue.length !== 0) {
-				setShowModal(true);
-			} else {
-				setShowModal(false);
-			}
 		}, [selector]),
 	);
 
@@ -74,7 +70,7 @@ const HomeViewContainer = ({ navigation }) => {
 		<>
 			{selector?.lastDrinks?.map((element, index) => (
 				<MemoizedCard
-					backgroundColor={colorPallete.yellow}
+					backgroundColor={colorPallete.cardBackground}
 					description={element.name}
 					item={element}
 					onPress={onPressCard}
@@ -108,43 +104,39 @@ const HomeViewContainer = ({ navigation }) => {
 		setDrinkModalData();
 	};
 
+	const onPanClose = () => {
+		setShowDrinkModal(false);
+	};
 	return (
-		<ViewWrapper>
-			<BackdropMenu>
-				<HomeViewContentContainer>
-					<BannerWrapper>
-						<BannerContent>
-							<BannerText fontSize={30}>Make your</BannerText>
-							<BannerText fontSize={20}>Favourite</BannerText>
-							<BannerText fontSize={15}>Drinks.</BannerText>
-							<BannerLogo source={require("../../assets/drinks2.png")} />
-						</BannerContent>
-					</BannerWrapper>
-					<Flex>
-						<CardButton onClick={createDrink} text="Create" />
-						<CardButton onClick={openFavorite} text="Favorite" />
-					</Flex>
-					{/* <Section
+		<>
+			<ViewWrapper>
+				<BackdropMenu>
+					<HomeViewContentContainer>
+						<BannerWrapper>
+							<BannerContent>
+								<BannerText fontSize={30}>Make your</BannerText>
+								<BannerText fontSize={20}>Favourite</BannerText>
+								<BannerText fontSize={15}>Drinks.</BannerText>
+								<BannerLogo source={require("../../assets/drinks2.png")} />
+							</BannerContent>
+						</BannerWrapper>
+						<Flex>
+							<CardButton onClick={createDrink} text="Create" />
+							<CardButton onClick={openFavorite} text="Favorite" />
+						</Flex>
+						{/* <Section
 						sectionTitle="Recommended drinks"
 						content={RecommendedDrinksContent}
 					/> */}
-					<Section sectionTitle="Drinks" content={ReadyDrinks} />
-					<Section
-						sectionTitle="Recently selected"
-						content={RecentlySelectedContent}
-					/>
-				</HomeViewContentContainer>
-			</BackdropMenu>
-			{showModal && (
-				<ModalNotificationBottom
-					isVisible={showModal}
-					text="You're 2 in queue"
-				/>
-			)}
-			{showDrinkModal && drinkModalData && (
-				<DrinkModal data={drinkModalData} onClose={closeDrinkModal} />
-			)}
-		</ViewWrapper>
+						{/* <Section sectionTitle="Drinks" content={ReadyDrinks} /> */}
+						<Section
+							sectionTitle="Recently selected"
+							content={RecentlySelectedContent}
+						/>
+					</HomeViewContentContainer>
+				</BackdropMenu>
+			</ViewWrapper>
+		</>
 	);
 };
 

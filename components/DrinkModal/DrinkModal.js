@@ -14,8 +14,6 @@ import {
 } from "./DrinkModal.styled";
 
 export const DrinkModal = ({ data, onClose }) => {
-	console.log("XXXX: ", data);
-
 	const [addToFav, setAddToFav] = useState(false);
 
 	const ingredients = data.ingredients.map((element) => (
@@ -26,32 +24,22 @@ export const DrinkModal = ({ data, onClose }) => {
 	));
 	return (
 		<DrinkModalWrapper>
-			<ModalBox>
-				<ModalContent>
-					<ModalText>{data.name}</ModalText>
-					<DescriptionContainer>{ingredients}</DescriptionContainer>
-					<Button
-						text="Add to favorite"
-						background={
-							addToFav ? colorPallete.nonBlockedGreen : colorPallete.gray
-						}
-						onPress={() => setAddToFav(!addToFav)}
-						margin={20}
-					/>
-				</ModalContent>
-				<ButtonContainer>
-					<Button
-						text="Close"
-						background={colorPallete.blockedRed}
-						onPress={onClose}
-					/>
-					<Button
-						text="Create"
-						background={colorPallete.nonBlockedGreen}
-						onPress={onClose}
-					/>
-				</ButtonContainer>
-			</ModalBox>
+			<ModalContent>
+				<ModalText>{data.name}</ModalText>
+				<DescriptionContainer>{ingredients}</DescriptionContainer>
+			</ModalContent>
+			<ButtonContainer>
+				<Button
+					text="Close"
+					background={colorPallete.blockedRed}
+					onPress={onClose}
+				/>
+				<Button
+					text="Create"
+					background={colorPallete.nonBlockedGreen}
+					onPress={onClose}
+				/>
+			</ButtonContainer>
 		</DrinkModalWrapper>
 	);
 };

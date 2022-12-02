@@ -23,7 +23,6 @@ export const CardComponent = (props) => {
 		const res = user?.favouriteDrinks.filter(
 			(e) => e.drinkID === item.drinkID,
 		)?.[0];
-		console.log("RES:", res);
 		if (res) {
 			setIsFavorite(true);
 		}

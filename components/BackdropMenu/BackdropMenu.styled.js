@@ -12,7 +12,7 @@ export const MenuBox = styled.View`
 export const MenuItem = styled.Text`
 	font-size: 15px;
 	padding: 10px;
-	color: ${colorPallete.white};
+	color: ${colorPallete.textColorBackground};
 `;
 export const MenuItemBox = styled.TouchableOpacity`
 	display: flex;

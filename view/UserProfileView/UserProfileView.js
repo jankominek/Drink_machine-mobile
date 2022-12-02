@@ -23,11 +23,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Text, TouchableOpacity } from "react-native";
 import { clearDb } from "../../store/userReducer";
+import { colorPallete } from "../../utils/colorPallete";
 
 export const UserProfileViewContainer = ({ navigation }) => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-	console.log(user);
 
 	const logOut = () => {
 		dispatch(clearDb());
@@ -49,7 +49,7 @@ export const UserProfileViewContainer = ({ navigation }) => {
 								<MaterialCommunityIcons
 									name="pencil-outline"
 									size={22}
-									color="white"
+									color={colorPallete.textColorBackground}
 								/>
 							</TouchableOpacity>
 						</Flex>
