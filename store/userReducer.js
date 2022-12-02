@@ -9,6 +9,7 @@ export const userState = createSlice({
 		lastDrinks: [],
 		favouriteDrinks: [],
 		drinkQueue: [],
+		showBottomSheet: true,
 	},
 	reducers: {
 		initUser: (state, action) => {
@@ -50,6 +51,10 @@ export const userState = createSlice({
 			state.favouriteDrinks = [];
 			state.drinkQueue = [];
 		},
+		toggleBottomSheet: (state, action) => {
+			state.showBottomSheet = action.payload;
+			console.log("state changed: ", state.showBottomSheet);
+		},
 	},
 });
 
@@ -61,6 +66,7 @@ export const {
 	removeDrinkFromFavorite,
 	clearDb,
 	updateDrinkQueue,
+	toggleBottomSheet,
 } = userState.actions;
 
 export default userState.reducer;

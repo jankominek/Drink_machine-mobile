@@ -14,6 +14,7 @@ export const ButtonComponentWrapper = styled.TouchableOpacity`
     border: 1px solid ${colorPallete.green};
     background: transparent;
     `}
+	${(props) => props.borderColor && `border: 1px solid ${props.borderColor}`};
 	${({ margin }) => margin && `margin: ${margin}px;`}
 	${({ width }) => (width ? `width: ${width};` : `width: 40%;`)};
 `;

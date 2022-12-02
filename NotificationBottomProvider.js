@@ -4,7 +4,7 @@ import { ModalNotificationBottom } from "./components/ModalNotificationBottom/Mo
 import SockJsClient from "react-stomp";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDrinkQueue } from "./store/userReducer";
+import { toggleBottomSheet, updateDrinkQueue } from "./store/userReducer";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
 	DrinkDetails,
@@ -21,15 +21,17 @@ import { useRef } from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { colorPallete } from "./utils/colorPallete";
 import { Button } from "./components/Button/Button";
+import React from "react";
 
 const SOCKET_URL = "http://192.168.1.16:8080/queue";
 
 export const NotificationBottomProvider = ({ children }) => {
-	const [showModal, setShowModal] = useState(true);
 	const user = useSelector((state) => state.user);
 	const [isDrinkQueueEmpty, setIsDrinkQueueEmpty] = useState(true);
 	const childrenArray = Children.toArray(children);
-	const childRender = Children.map(childrenArray, (child) => child);
+	const childRender = Children.map(childrenArray, (child) =>
+		React.cloneElement(child, { data: "testDATA" }),
+	);
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
 
@@ -41,8 +43,10 @@ export const NotificationBottomProvider = ({ children }) => {
 		if (navigation.getCurrentRoute().name == "Sign") {
 			// setIsDrinkQueueEmpty(user.drinkQueue.length === 0);
 			setIsDrinkQueueEmpty(true);
-			setShowModal(false);
+			dispatch(toggleBottomSheet(false));
 		}
+
+		console.log("reloooooad");
 	}, [user, navigation]);
 
 	const onConnected = () => {
@@ -52,26 +56,29 @@ export const NotificationBottomProvider = ({ children }) => {
 	const onMessageReceived = (msg) => {
 		console.log("message : ", msg);
 		dispatch(updateDrinkQueue(msg.queue));
-		setShowModal(true);
+		dispatch(toggleBottomSheet(true));
 	};
+
+	console.log("XXXX: ", user.showBottomSheet);
 
 	return (
 		<>
 			{childRender}
-			<SockJsClient
-				url={SOCKET_URL}
-				topics={["/topic/638774313979c738669cfe5d"]}
-				onConnect={onConnected}
-				onDisconnect={console.log("Disconnected!")}
-				onMessage={(msg) => onMessageReceived(msg)}
-				debug={false}
-			/>
+			{user.userID && (
+				<SockJsClient
+					url={SOCKET_URL}
+					topics={[`/topic/${user.userID}`]}
+					onConnect={onConnected}
+					onDisconnect={console.log("Disconnected!")}
+					onMessage={(msg) => onMessageReceived(msg)}
+					debug={false}
+				/>
+			)}
 
-			{showModal && (
+			{user?.showBottomSheet && user?.drinkQueue.length !== 0 && (
 				<BottomSheet
 					snapPoints={snapPoints}
 					ref={sheetRef}
-					index={-1}
 					handleStyle={{
 						backgroundColor: colorPallete.greenSea,
 						marginBottom: -1,
@@ -79,7 +86,7 @@ export const NotificationBottomProvider = ({ children }) => {
 						borderTopRightRadius: 20,
 					}}
 				>
-					<BottomSheetScrollView>
+					<BottomSheetScrollView backgroundColor={colorPallete.greenSea}>
 						<DrinkQueueModal data={user.drinkQueue} />
 					</BottomSheetScrollView>
 				</BottomSheet>

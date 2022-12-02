@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { colorPallete } from "../../utils/colorPallete";
 import { Button } from "../Button/Button";
@@ -13,30 +13,42 @@ import {
 	ModalText,
 } from "./DrinkModal.styled";
 
-export const DrinkModal = ({ data, onClose }) => {
+export const DrinkModal = ({ data, onClose, parentHeight }) => {
 	const [addToFav, setAddToFav] = useState(false);
+	const [modalContentHeight, setModalContentHeight] = useState(0);
 
-	const ingredients = data.ingredients.map((element) => (
+	const ingredients = data?.ingredients.map((element) => (
 		<IngredientBox>
 			<IngredientElement>[element]</IngredientElement>
 			<IngredientElement>{element.amount}ml</IngredientElement>
 		</IngredientBox>
 	));
+
+	const height = parentHeight / 2 - 23;
 	return (
-		<DrinkModalWrapper>
-			<ModalContent>
+		<DrinkModalWrapper height={height}>
+			<ModalContent
+				onLayout={(event) => {
+					var { x, y, width, height } = event.nativeEvent.layout;
+					setModalContentHeight(height);
+				}}
+			>
 				<ModalText>{data.name}</ModalText>
 				<DescriptionContainer>{ingredients}</DescriptionContainer>
 			</ModalContent>
-			<ButtonContainer>
+
+			<ButtonContainer
+				modalContentHeight={modalContentHeight}
+				parentHeight={height}
+			>
 				<Button
-					text="Close"
-					background={colorPallete.blockedRed}
+					text="Remove"
+					background={colorPallete.backgroundGray}
 					onPress={onClose}
 				/>
 				<Button
 					text="Create"
-					background={colorPallete.nonBlockedGreen}
+					background={colorPallete.backgroundGray}
 					onPress={onClose}
 				/>
 			</ButtonContainer>

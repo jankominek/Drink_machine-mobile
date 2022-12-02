@@ -6,7 +6,7 @@ import { CardButton } from "../../components/CardButton/CardButton";
 import { Section } from "../../components/Section/Section";
 import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
-import { initUser } from "../../store/userReducer";
+import { initUser, toggleBottomSheet } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
 import BottomSheet, {
 	BottomSheetScrollView,
@@ -26,14 +26,17 @@ import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { DrinkModal } from "../../components/DrinkModal/DrinkModal";
 
-const HomeViewContainer = ({ navigation }) => {
+const HomeViewContainer = (props) => {
+	const { navigation, data } = props;
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state.user);
 	const [showModal, setShowModal] = useState(false);
 	const [drinkModalData, setDrinkModalData] = useState();
 	const [showDrinkModal, setShowDrinkModal] = useState(false);
+	const [homeContainerHeight, setHomeContainerHeight] = useState(0);
 
 	const sheetRef = useRef(null);
+	const viewRef = useRef(null);
 
 	const snapPoints = ["50%"];
 
@@ -64,6 +67,7 @@ const HomeViewContainer = ({ navigation }) => {
 	const onPressCard = (element) => {
 		setDrinkModalData(element);
 		setShowDrinkModal(true);
+		dispatch(toggleBottomSheet(false));
 	};
 
 	const RecentlySelectedContent = (
@@ -106,12 +110,18 @@ const HomeViewContainer = ({ navigation }) => {
 
 	const onPanClose = () => {
 		setShowDrinkModal(false);
+		dispatch(toggleBottomSheet(true));
 	};
 	return (
 		<>
 			<ViewWrapper>
 				<BackdropMenu>
-					<HomeViewContentContainer>
+					<HomeViewContentContainer
+						onLayout={(event) => {
+							var { x, y, width, height } = event.nativeEvent.layout;
+							setHomeContainerHeight(height);
+						}}
+					>
 						<BannerWrapper>
 							<BannerContent>
 								<BannerText fontSize={30}>Make your</BannerText>
@@ -133,6 +143,30 @@ const HomeViewContainer = ({ navigation }) => {
 							sectionTitle="Recently selected"
 							content={RecentlySelectedContent}
 						/>
+						{drinkModalData && showDrinkModal && (
+							<BottomSheet
+								snapPoints={snapPoints}
+								ref={sheetRef}
+								handleStyle={{
+									backgroundColor: colorPallete.backgroundDarkGray,
+									marginBottom: -1,
+									borderTopLeftRadius: 20,
+									borderTopRightRadius: 20,
+								}}
+								enablePanDownToClose={true}
+								onClose={onPanClose}
+							>
+								<BottomSheetScrollView
+									backgroundColor={colorPallete.backgroundDarkGray}
+								>
+									<DrinkModal
+										data={drinkModalData}
+										onClose={closeDrinkModal}
+										parentHeight={homeContainerHeight}
+									/>
+								</BottomSheetScrollView>
+							</BottomSheet>
+						)}
 					</HomeViewContentContainer>
 				</BackdropMenu>
 			</ViewWrapper>

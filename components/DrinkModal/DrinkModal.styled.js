@@ -6,27 +6,31 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export const DrinkModalWrapper = styled.View`
-	flex: 1;
-	index: 100;
-	height: 100%;
-	align-items: center;
-	border: 1px solid red;
-	background: ${colorPallete.backgroundDarkGray};
+	width: 100%;
+	${(props) => `min-height: ${props.height}px`};
 `;
 
 export const ModalText = styled.Text`
-	font-size: 20px;
-	margin: 5% 0%;
+	font-size: 18px;
+	position: absolute;
+	top: 20px;
+	text-transform: uppercase;
 `;
 
 export const ModalContent = styled.View`
+	flex: 1;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 `;
 
 export const DescriptionContainer = styled.View`
-	flex: 1;
+	display: flex;
+	flex-direction: row;
+	// border: 1px solid red;
+	flex-wrap: wrap;
 	justify-content: center;
+	align-items: center;
 `;
 
 export const IngredientBox = styled.View`
@@ -35,14 +39,11 @@ export const IngredientBox = styled.View`
 `;
 
 export const IngredientElement = styled.Text`
-	padding: 5px 10px;
-	font-size: 15px;
+	margin: 1% 2%;
 `;
 export const ButtonContainer = styled.View`
 	display: flex;
-	justify-content: space-evenly;
 	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	align-self: flex-end;
+	justify-content: space-evenly;
+	margin: 5%;
 `;
