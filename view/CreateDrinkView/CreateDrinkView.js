@@ -114,10 +114,6 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 		setViewNumber(viewNumber + 1);
 	};
 
-	const initViewValidation = () => {
-		return glassCapacity && drinkName;
-	};
-
 	const displayAmountOfAlcohol = (alcohol) => {
 		const filtered = selectedAlcohol.filter(
 			(element) => element.alcoholID === alcohol.alcoholID,

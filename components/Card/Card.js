@@ -13,7 +13,6 @@ import { Selector } from "@react-native-material/core";
 
 export const CardComponent = (props) => {
 	const { backgroundColor, icon, description, onPress, item, index } = props;
-	console.log(description + " rerender  " + index);
 	const chosedBgColor = backgroundColor ? backgroundColor : "white";
 	const user = useSelector((state) => state.user);
 	const [isFavorite, setIsFavorite] = useState(false);

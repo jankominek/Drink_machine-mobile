@@ -77,7 +77,7 @@ export const Login = (props) => {
 				onChange={onChangeCredentials}
 				password
 			/>
-			<Input placeholder="Ip" margin={8} onChange={onChangeIp} />
+			<Input placeholder="IP" margin={8} onChange={onChangeIp} />
 			<Button text="Login" margin={15} onPress={onLogin} />
 		</SignCredentialContent>
 	);

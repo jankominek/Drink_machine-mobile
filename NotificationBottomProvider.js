@@ -28,7 +28,7 @@ import { showNotification } from "./utils/showNotification";
 
 export const NotificationBottomProvider = ({ children }) => {
 	const user = useSelector((state) => state.user);
-	const [isDrinkQueueEmpty, setIsDrinkQueueEmpty] = useState(true);
+	const [isSocket, setIsSocket] = useState(false);
 	const childrenArray = Children.toArray(children);
 	const childRender = Children.map(childrenArray, (child) =>
 		React.cloneElement(child, { data: "testDATA" }),
@@ -44,17 +44,23 @@ export const NotificationBottomProvider = ({ children }) => {
 	const snapPoints = ["7%", "50%", "90%"];
 
 	useEffect(() => {
+		isSocket && axios.post(`/getQueue/${user?.userID}`);
+	}, [isSocket]);
+
+	useEffect(() => {
 		if (navigation.getCurrentRoute().name == "Sign") {
-			// setIsDrinkQueueEmpty(user.drinkQueue.length === 0);
-			setIsDrinkQueueEmpty(true);
 			dispatch(toggleBottomSheet(false));
 		}
 
 		console.log("reloooooad");
-	}, [user, navigation]);
+	}, [navigation]);
 
 	const onConnected = () => {
 		console.log("connected!");
+		setTimeout(() => {
+			console.log("WOOORKING");
+			setIsSocket(true);
+		}, 3000);
 	};
 
 	const checkFirstInQueue = (queue) => {
@@ -68,7 +74,7 @@ export const NotificationBottomProvider = ({ children }) => {
 	};
 
 	const onMessageReceived = (msg) => {
-		console.log("message : ", msg);
+		console.log("message : \n\n\n", msg);
 		dispatch(updateDrinkQueue(msg.queue));
 		dispatch(toggleBottomSheet(true));
 		checkFirstInQueue(msg.queue);
@@ -76,6 +82,7 @@ export const NotificationBottomProvider = ({ children }) => {
 
 	console.log("XXXX: ", user.showBottomSheet);
 
+	console.log("isSocket", isSocket);
 	return (
 		<>
 			{childRender}
@@ -124,7 +131,7 @@ const DrinkQueueModal = ({ data, onModalClose }) => {
 				: colorPallete.white;
 
 		const onCancel = () => {
-			axios.post(`/removeFromQueue/${drink.drinkDTO.drinkID}`).then(() => {
+			axios.post(`/removeFromQueue/${drink.queueId}`).then(() => {
 				showNotification(
 					`Remove drink`,
 					`Your drink ${drink.drinkDTO.name} has been removed from queue.`,
@@ -133,7 +140,8 @@ const DrinkQueueModal = ({ data, onModalClose }) => {
 		};
 
 		const onCreate = () => {
-			axios.post(`/makeDrink/${drink.drinkDTO.drinkID}`).then(() => {
+			console.log("drink: ", drink.queueId);
+			axios.post(`/makeDrink/${drink.queueId}`).then(() => {
 				showNotification(
 					`Making drink`,
 					`Your drink ${drink.drinkDTO.name} is being made.`,
@@ -141,7 +149,11 @@ const DrinkQueueModal = ({ data, onModalClose }) => {
 			});
 		};
 
-		const onEndDrink = () => {};
+		const onEndDrink = () => {
+			axios.post(`/receiveDrink/${drink.queueId}`).then(() => {
+				showNotification(`Drink confirmation`, `Drink received successfully`);
+			});
+		};
 
 		const selectItem = (index) => {
 			clickedId === index ? setClickedId("") : setClickedId(index);
@@ -162,14 +174,26 @@ const DrinkQueueModal = ({ data, onModalClose }) => {
 					>
 						{drink.drinkDTO.name}
 					</DrinkElementTitle>
-					<DrinkQueueNumber status={drink.whichOne}>
-						Queue: {drink.whichOne + 1}
-					</DrinkQueueNumber>
+					{drink.whichOne >= 0 && (
+						<DrinkQueueNumber status={drink.whichOne}>
+							Queue: {drink.whichOne + 1}
+						</DrinkQueueNumber>
+					)}
 				</Flex>
-				{index === clickedId && drink.whichOne <= 0 && (
+				{index === clickedId && drink.whichOne === 0 && (
 					<DrinkDetails>
 						<Button text="Cancel" onPress={onCancel} />
 						<Button text="Start" onPress={onCreate} />
+					</DrinkDetails>
+				)}
+				{index === clickedId && drink.whichOne > 0 && (
+					<DrinkDetails>
+						<Button text="Cancel" onPress={onCancel} />
+					</DrinkDetails>
+				)}
+				{index === clickedId && drink.whichOne === -1 && (
+					<DrinkDetails>
+						<Button text="Pick up drink" onPress={onEndDrink} />
 					</DrinkDetails>
 				)}
 			</DrinkElementBox>

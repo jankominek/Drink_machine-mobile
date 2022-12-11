@@ -34,7 +34,8 @@
     "socket.io-client": "^4.5.4",
     "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.6",
-    "expo-linear-gradient": "~11.4.0"
+    "expo-linear-gradient": "~11.4.0",
+    "expo-font": "~10.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

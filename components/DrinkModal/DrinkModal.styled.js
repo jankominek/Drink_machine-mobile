@@ -7,7 +7,6 @@ const windowHeight = Dimensions.get("window").height;
 
 export const DrinkModalWrapper = styled.View`
 	width: 100%;
-	border: 1px solid red;
 	${(props) => `height: ${props.height}px`};
 `;
 
