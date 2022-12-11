@@ -4,7 +4,7 @@ export const showNotification = (title, description) => {
 	return Notifier.showNotification({
 		title: title,
 		description: description,
-		duration: 0,
+		duration: 4000,
 		showAnimationDuration: 800,
 		containerStyle: { translateY: 100 },
 		showEasing: Easing.bounce,

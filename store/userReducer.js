@@ -33,7 +33,6 @@ export const userState = createSlice({
 		},
 		updateDrinkQueue: (state, action) => {
 			if (!_.isEqual(state.drinkQueue, action.payload)) {
-				console.log("are not equal");
 				state.drinkQueue = action.payload;
 			}
 		},
@@ -56,7 +55,6 @@ export const userState = createSlice({
 		},
 		toggleBottomSheet: (state, action) => {
 			state.showBottomSheet = action.payload;
-			console.log("state changed: ", state.showBottomSheet);
 		},
 	},
 });

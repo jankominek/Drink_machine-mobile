@@ -64,7 +64,8 @@ export const FavoriteViewContainer = () => {
 	};
 
 	const createDrink = (drink) => {
-		dispatch(addDrinkToQueue({ drink: drink }));
+		console.log(drink);
+		axios.post("/addToQueue", { userId: user.userID, drinkId: drink.drinkID });
 		navigation.navigate("Home");
 	};
 

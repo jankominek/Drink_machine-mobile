@@ -30,7 +30,6 @@ export const SigningViewContainer = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state.user);
 
-	console.log(selector);
 	useFocusEffect(
 		React.useCallback(() => {
 			dispatch(clearDb());

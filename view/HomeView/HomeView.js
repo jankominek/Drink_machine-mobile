@@ -8,6 +8,7 @@ import { withLayout } from "../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../layout/pageLayout/PageLayout.styled";
 import { initUser, toggleBottomSheet } from "../../store/userReducer";
 import { colorPallete } from "../../utils/colorPallete";
+import { showNotification } from "../../utils/showNotification";
 import BottomSheet, {
 	BottomSheetScrollView,
 	BottomSheetView,
@@ -101,8 +102,6 @@ const HomeViewContainer = (props) => {
 		navigation.navigate("Favorites");
 	};
 
-	const createDrinkModal = () => {};
-
 	const closeDrinkModal = () => {
 		setShowDrinkModal(false);
 		setDrinkModalData();
@@ -111,6 +110,27 @@ const HomeViewContainer = (props) => {
 	const onPanClose = () => {
 		setShowDrinkModal(false);
 		dispatch(toggleBottomSheet(true));
+	};
+
+	const createDrinkModal = (data) => {
+		// const objectToSend = {
+		// 	userId: selector.userID,
+		// 	name: data.name,
+		// 	ingredients: data.ingredients,
+		// 	addToFavourite: false,
+		// };
+		console.log("OBJECT : ", data);
+		setShowDrinkModal(false);
+		dispatch(toggleBottomSheet(true));
+		axios
+			.post("/addToQueue", { userId: selector.userID, drinkId: data.drinkID })
+			.catch((err) => {
+				console.log("ERRORROROROROROROOROR");
+				showNotification(
+					"Something went wrong!",
+					"Describe problem with administrator",
+				);
+			});
 	};
 	return (
 		<>
@@ -162,6 +182,7 @@ const HomeViewContainer = (props) => {
 									<DrinkModal
 										data={drinkModalData}
 										onClose={closeDrinkModal}
+										onCreate={createDrinkModal}
 										parentHeight={homeContainerHeight}
 									/>
 								</BottomSheetScrollView>

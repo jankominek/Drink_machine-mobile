@@ -24,9 +24,15 @@ export const Flex = styled.TouchableOpacity`
 	align-items: center;
 	box-sizing: border-box;
 	padding: 10px 5px;
-	background: ${(props) => props.background};
-	background: #008264;
+	// background: #008264;
+	background: #fae99b;
 	border-radius: 5px;
+	${({ status }) =>
+		status === -1
+			? `background: #D4FFC5;`
+			: status === 0
+			? `background: #fae99b;`
+			: `background: #008264;`}
 `;
 
 export const DrinkElementBox = styled.View`
@@ -36,12 +42,17 @@ export const DrinkElementBox = styled.View`
 `;
 
 export const DrinkElementTitle = styled.Text`
-	color: ${colorPallete.white};
 	flex: 1;
 	font-size: 15px;
 	box-sizing: border-box;
 	padding: 0px 5px;
 	margin: 0 5px;
+	${({ status }) =>
+		status === -1
+			? `color: ${colorPallete.darkBlue};`
+			: status === 0
+			? `color: ${colorPallete.darkBlue};`
+			: `color: ${colorPallete.white};`}
 `;
 
 export const DrinkDetails = styled.View`
@@ -53,12 +64,17 @@ export const DrinkDetails = styled.View`
 `;
 
 export const DrinkQueueNumber = styled.Text`
-	color: ${colorPallete.white};
 	width: 30%;
 	font-size: 15px;
 	box-sizing: border-box;
 	padding: 0px 5px;
 	margin: 0 5px;
+	${({ status }) =>
+		status === -1
+			? `color: ${colorPallete.darkBlue};`
+			: status === 0
+			? `color: ${colorPallete.darkBlue};`
+			: `color: ${colorPallete.white};`}
 `;
 
 export const ModalTitle = styled.Text`

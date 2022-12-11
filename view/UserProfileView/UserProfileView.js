@@ -75,20 +75,21 @@ export const UserProfileViewContainer = ({ navigation }) => {
 	};
 
 	const onSubmitPassword = () => {
-		showNotification(
-			`Password changed`,
-			`Your password has been changed correctly`,
-		);
+		console.log(passwordState);
+		axios
+			.post("/changePassword", {
+				userId: user.userID,
+				newPassword: passwordState.new,
+			})
+			.then(() => {
+				showNotification(
+					`Password changed`,
+					`Your password has been changed correctly`,
+				);
+			});
 	};
 	const changePasswordView = (
 		<SettingsBoxWrapper>
-			<Input
-				placeholder="Current password"
-				name="current"
-				height="35px"
-				margin={5}
-				onChange={onChangePasswordInput}
-			/>
 			<Input
 				placeholder="New password"
 				name="new"

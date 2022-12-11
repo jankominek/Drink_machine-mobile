@@ -13,7 +13,7 @@ import {
 	ModalText,
 } from "./DrinkModal.styled";
 
-export const DrinkModal = ({ data, onClose, parentHeight }) => {
+export const DrinkModal = ({ data, onClose, onCreate, parentHeight }) => {
 	const [addToFav, setAddToFav] = useState(false);
 	const [modalContentHeight, setModalContentHeight] = useState(0);
 
@@ -24,6 +24,9 @@ export const DrinkModal = ({ data, onClose, parentHeight }) => {
 		</IngredientBox>
 	));
 
+	const createDrink = () => {
+		onCreate && data && onCreate(data);
+	};
 	const height = parentHeight / 2 - 23;
 	return (
 		<DrinkModalWrapper height={height}>
@@ -49,7 +52,7 @@ export const DrinkModal = ({ data, onClose, parentHeight }) => {
 				<Button
 					text="Create"
 					background={colorPallete.backgroundGray}
-					onPress={onClose}
+					onPress={createDrink}
 				/>
 			</ButtonContainer>
 		</DrinkModalWrapper>

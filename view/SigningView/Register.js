@@ -80,7 +80,7 @@ export const Register = (props) => {
 				onChange={onChangeCredentials}
 				password
 			/>
-			<Input placeholder="Ip" margin={8} onChange={onChangeIp} />
+			<Input placeholder="IP" margin={8} onChange={onChangeIp} />
 			<Button text="Register" margin={15} onPress={onRegister} />
 		</SignCredentialContent>
 	);
