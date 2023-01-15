@@ -99,6 +99,35 @@ export const SettingsBoxWrapper = styled.View`
 	border-radius: 10px;
 `;
 
+export const StatisticBox = styled.View`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+`;
+
+export const StatisticElementBox = styled.View`
+	width: 100%;
+	heght: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3px;
+	margin: 2px 0px;
+	border-radius: 5px;
+	background: ${colorPallete.darkLightGray};
+`;
+export const StatisticElement = styled.Text`
+	font-size: 16px;
+	font-weight: 500;
+`;
+
+export const StatCount = styled.Text`
+	font-size: 16px;
+	font-weight: 400;
+`;
+
 export const BottomBox = styled.View`
 	width: 100%;
 	height: 50px;

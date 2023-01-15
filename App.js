@@ -1,13 +1,7 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { ButtonComponent } from "./components/Button/Button";
-import { PageLayout } from "./layout/pageLayout/PageLayout";
-import { colorPallete } from "./utils/colorPallete";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SigningView } from "./view/SigningView/SigningView";
 import { HomeView } from "./view/HomeView/HomeView";
-import { VerifyView } from "./view/VerifyView/VerifyView";
 import { CreateDrinkView } from "./view/CreateDrinkView/CreateDrinkView";
 import { Provider } from "react-redux";
 import store from "./store/store";
@@ -20,11 +14,9 @@ import { initAxiosConfig } from "./utils/axiosConfig";
 import { NotifierWrapper } from "react-native-notifier";
 import { DrinkOrderView } from "./view/DrinkOrderView/DrinkOrderView";
 import { UserProfileView } from "./view/UserProfileView/UserProfileView";
-import { useState } from "react";
-import { ModalNotificationBottom } from "./components/ModalNotificationBottom/ModalNotificationBottom";
-import SockJsClient from "react-stomp";
 import { NotificationBottomProvider } from "./NotificationBottomProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { QuestionView } from "./view/QuestionView/QuestionView";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +49,7 @@ export default function App() {
 								<Stack.Screen name="Favorites" component={FavoriteView} />
 								<Stack.Screen name="DrinkOrder" component={DrinkOrderView} />
 								<Stack.Screen name="UserProfile" component={UserProfileView} />
+								<Stack.Screen name="QuestionView" component={QuestionView} />
 							</Stack.Navigator>
 						</NotificationBottomProvider>
 					</NavigationContainer>

@@ -19,7 +19,7 @@ export const Register = (props) => {
 		initialRegisterCredentials,
 	);
 
-	const [ip, setIp] = useState("192.168.1.16");
+	const [ip, setIp] = useState("");
 
 	const registerUser = (userData) => {
 		axios
@@ -46,7 +46,7 @@ export const Register = (props) => {
 	};
 	const onRegister = async () => {
 		initAxiosConfig(ip);
-		const validation = signFormValidation(userCredentials);
+		const validation = signFormValidation(userCredentials, ip);
 		const convertedToText = validation.join("\n");
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
@@ -65,22 +65,25 @@ export const Register = (props) => {
 				placeholder="First name"
 				margin={8}
 				name="name"
+				width="80%"
 				onChange={onChangeCredentials}
 			/>
 			<Input
 				placeholder="Email"
 				margin={8}
+				width="80%"
 				name="email"
 				onChange={onChangeCredentials}
 			/>
 			<Input
 				placeholder="Password"
 				margin={8}
+				width="80%"
 				name="password"
 				onChange={onChangeCredentials}
 				password
 			/>
-			<Input placeholder="IP" margin={8} onChange={onChangeIp} />
+			<Input placeholder="IP" margin={8} onChange={onChangeIp} width="80%" />
 			<Button text="Register" margin={15} onPress={onRegister} />
 		</SignCredentialContent>
 	);

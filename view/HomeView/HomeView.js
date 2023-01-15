@@ -119,13 +119,12 @@ const HomeViewContainer = (props) => {
 		// 	ingredients: data.ingredients,
 		// 	addToFavourite: false,
 		// };
-		console.log("OBJECT : ", data);
+
 		setShowDrinkModal(false);
 		dispatch(toggleBottomSheet(true));
 		axios
 			.post("/addToQueue", { userId: selector.userID, drinkId: data.drinkID })
 			.catch((err) => {
-				console.log("ERRORROROROROROROOROR");
 				showNotification(
 					"Something went wrong!",
 					"Describe problem with administrator",

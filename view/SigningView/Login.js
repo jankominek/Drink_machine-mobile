@@ -19,7 +19,7 @@ export const Login = (props) => {
 	const [userCredentials, setUserCredentials] = useState(
 		initialLoginCredentials,
 	);
-	const [ip, setIp] = useState("192.168.1.16");
+	const [ip, setIp] = useState("");
 
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
@@ -33,8 +33,8 @@ export const Login = (props) => {
 	const onLogin = () => {
 		initAxiosConfig(ip || "192.168.1.16");
 		if (
-			userCredentials.email == "admin" &&
-			userCredentials.password == "adminpp"
+			userCredentials.email == "googleconsole@gmail.com" &&
+			userCredentials.password == "59488166-94f7-11ed-a1eb-0242ac120002"
 		) {
 			navigation.navigate("Admin");
 			return;
@@ -45,17 +45,29 @@ export const Login = (props) => {
 			return;
 		}
 
-		const validation = signFormValidation(userCredentials);
+		const validation = signFormValidation(userCredentials, ip);
 		const convertedToText = validation.join("\n");
 		convertedToText &&
 			Alert.alert("Wrong data!", convertedToText, [{ text: "Accept" }]);
 		if (!convertedToText) {
-			axios.post("/login", userCredentials).then((response) => {
-				if (response.status == 200) {
-					dispatch(initUser(response.data));
-					navigation.navigate("Home");
-				}
-			});
+			axios
+				.post("/login", userCredentials)
+				.then((response) => {
+					if (response.status == 200) {
+						if (userCredentials.email === "admin@admin.pl") {
+							navigation.navigate("Admin");
+							return;
+						}
+						console.log("response: ", response.data);
+						dispatch(initUser(response.data));
+						navigation.navigate("QuestionView");
+					}
+				})
+				.catch((error) => {
+					Alert.alert("Error!", error.response.data.message, [
+						{ text: "Accept" },
+					]);
+				});
 		}
 	};
 
@@ -68,16 +80,18 @@ export const Login = (props) => {
 				placeholder="Email"
 				margin={8}
 				name="email"
+				width="80%"
 				onChange={onChangeCredentials}
 			/>
 			<Input
 				placeholder="Password"
 				margin={8}
 				name="password"
+				width="80%"
 				onChange={onChangeCredentials}
 				password
 			/>
-			<Input placeholder="IP" margin={8} onChange={onChangeIp} />
+			<Input placeholder="IP" margin={8} onChange={onChangeIp} width="80%" />
 			<Button text="Login" margin={15} onPress={onLogin} />
 		</SignCredentialContent>
 	);

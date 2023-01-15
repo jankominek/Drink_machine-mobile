@@ -30,6 +30,13 @@ const AdminViewContainer = () => {
 					onPress={onUsersClick}
 					background={colorPallete.backgroundDarkGray}
 				/>
+				<Button
+					text="Change password"
+					margin={10}
+					width="80%"
+					onPress={onUsersClick}
+					background={colorPallete.backgroundDarkGray}
+				/>
 			</AdminViewWrapper>
 		</ViewWrapper>
 	);

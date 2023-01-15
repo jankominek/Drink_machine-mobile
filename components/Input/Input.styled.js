@@ -12,6 +12,7 @@ export const TextInputComponent = styled.TextInput.attrs({
 })`
 	background: white;
 	border-radius: 5px;
+	width: 100%;
 	flex: 1;
 	padding: 0 10px;
 	background: transparent;

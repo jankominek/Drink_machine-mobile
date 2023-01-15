@@ -51,14 +51,10 @@ export const NotificationBottomProvider = ({ children }) => {
 		if (navigation.getCurrentRoute().name == "Sign") {
 			dispatch(toggleBottomSheet(false));
 		}
-
-		console.log("reloooooad");
 	}, [navigation]);
 
 	const onConnected = () => {
-		console.log("connected!");
 		setTimeout(() => {
-			console.log("WOOORKING");
 			setIsSocket(true);
 		}, 3000);
 	};
@@ -74,15 +70,11 @@ export const NotificationBottomProvider = ({ children }) => {
 	};
 
 	const onMessageReceived = (msg) => {
-		console.log("message : \n\n\n", msg);
 		dispatch(updateDrinkQueue(msg.queue));
 		dispatch(toggleBottomSheet(true));
 		checkFirstInQueue(msg.queue);
 	};
 
-	console.log("XXXX: ", user.showBottomSheet);
-
-	console.log("isSocket", isSocket);
 	return (
 		<>
 			{childRender}
@@ -118,8 +110,6 @@ export const NotificationBottomProvider = ({ children }) => {
 };
 
 const DrinkQueueModal = ({ data, onModalClose }) => {
-	console.log("data: ", data);
-
 	const [clickedId, setClickedId] = useState("");
 
 	const drinkList = data.map((drink, index) => {
@@ -140,7 +130,6 @@ const DrinkQueueModal = ({ data, onModalClose }) => {
 		};
 
 		const onCreate = () => {
-			console.log("drink: ", drink.queueId);
 			axios.post(`/makeDrink/${drink.queueId}`).then(() => {
 				showNotification(
 					`Making drink`,

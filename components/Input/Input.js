@@ -36,7 +36,7 @@ export const Input = (props) => {
 	};
 
 	return (
-		<InputWrapper margin={margin} height={height}>
+		<InputWrapper margin={margin} height={height} width={width}>
 			<TextInputComponent
 				onChangeText={onChangeInput}
 				onFocus={onFocus}
