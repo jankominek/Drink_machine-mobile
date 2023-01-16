@@ -60,7 +60,11 @@ export const Login = (props) => {
 						}
 						console.log("response: ", response.data);
 						dispatch(initUser(response.data));
-						navigation.navigate("QuestionView");
+						if (response.data.firstLogin) {
+							navigation.navigate("QuestionView");
+						} else {
+							navigation.navigate("Home");
+						}
 					}
 				})
 				.catch((error) => {
