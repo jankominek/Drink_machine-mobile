@@ -63,6 +63,7 @@ export const Login = (props) => {
 						if (response.data.firstLogin) {
 							navigation.navigate("QuestionView");
 						} else {
+							console.log("login: ", response.data);
 							navigation.navigate("Home");
 						}
 					}

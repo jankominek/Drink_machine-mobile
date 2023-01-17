@@ -51,6 +51,7 @@ const HomeViewContainer = (props) => {
 	useFocusEffect(
 		React.useCallback(() => {
 			axios.get(`/getUserData/${selector.userID}`).then((response) => {
+				console.log(response.data)
 				dispatch(initUser(response.data));
 			});
 		}, []),
@@ -113,12 +114,6 @@ const HomeViewContainer = (props) => {
 	};
 
 	const createDrinkModal = (data) => {
-		// const objectToSend = {
-		// 	userId: selector.userID,
-		// 	name: data.name,
-		// 	ingredients: data.ingredients,
-		// 	addToFavourite: false,
-		// };
 
 		setShowDrinkModal(false);
 		dispatch(toggleBottomSheet(true));

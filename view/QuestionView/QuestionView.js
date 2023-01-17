@@ -133,7 +133,7 @@ export const QuestionViewContainer = () => {
 				)}
 				{selectedQuestionNumber !== questions.length - 1 ? (
 					<>
-						{quiz.length === selectedQuestionNumber + 1 && (
+						{quiz.length >= selectedQuestionNumber + 1 && (
 							<Button text="Next" onPress={onNextButton} />
 						)}
 					</>
