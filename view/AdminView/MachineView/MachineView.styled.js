@@ -14,7 +14,7 @@ export const SectionDrinkPosition = styled.View`
 
 export const SectionDrinkPositionText = styled.Text`
 	font-size: 15px;
-	color: ${colorPallete.white};
+	color: ${colorPallete.gray};
 	letter-spacing: 1px;
 `;
 

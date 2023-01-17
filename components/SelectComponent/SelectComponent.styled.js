@@ -17,7 +17,7 @@ export const SelectButton = styled.TouchableOpacity`
 	width: ${SELECT_WIDTH}px;
 	height: ${SELECT_HEIGHT}px;
 	border-radius: 5px;
-	background: ${colorPallete.orange};
+	background: ${colorPallete.greenSea};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -41,6 +41,6 @@ export const SelectItem = styled(SelectText)``;
 export const SelectItemBox = styled.View`
 	min-height: 10px;
 	width: ${SELECT_WIDTH}px;
-	background: ${colorPallete.lightOrange};
+	background: ${colorPallete.gray};
 	border-radius: 5px;
 `;

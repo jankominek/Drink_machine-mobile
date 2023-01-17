@@ -55,6 +55,7 @@ export const Login = (props) => {
 				.then((response) => {
 					if (response.status == 200) {
 						if (userCredentials.email === "admin@admin.pl") {
+							dispatch(initUser(response.data));
 							navigation.navigate("Admin");
 							return;
 						}

@@ -15,6 +15,7 @@ export const SelectComponent = (props) => {
 	const [dropDown, setDropDown] = useState(false);
 	const [selected, setSelected] = useState("Select");
 
+	console.log("Select com: ", data);
 	const onSelectClick = () => {
 		setDropDown(!dropDown);
 	};
