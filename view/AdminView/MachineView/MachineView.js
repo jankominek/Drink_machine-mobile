@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
@@ -8,6 +9,7 @@ import { withLayout } from "../../../layout/pageLayout/PageLayout";
 import { ViewWrapper } from "../../../layout/pageLayout/PageLayout.styled";
 import { colorPallete } from "../../../utils/colorPallete";
 import {
+	ButtonField,
 	Flex,
 	MachineViewWrapper,
 	SectionDrinkPosition,
@@ -17,11 +19,38 @@ import {
 export const MachineViewContainer = () => {
 	const [choosed, setChoosed] = useState([]);
 	const [alcohols, setAlcohols] = useState([]);
-	const onSelect = (id, name) => {};
+	const navigation = useNavigation();
+
+	const onSelect = (id, position) => {
+		const exists = choosed.filter((e) => e.position == position);
+		if (exists.length) {
+			const newChoosed = choosed.map((e) => {
+				if (e.position == position) {
+					e.alcoholID = id;
+					return e;
+				}
+				return e;
+			});
+
+			setChoosed([...newChoosed]);
+		} else {
+			setChoosed([...choosed, { alcoholID: id, position: Number(position) }]);
+		}
+	};
+
+	console.log("choosed: ", choosed);
 
 	useEffect(() => {
 		axios.get("/getAllAlcohols").then((response) => {
 			prepareAlcohols(response.data);
+		});
+
+		axios.get("/getAlcoholsOnMachine").then((response) => {
+			const getChoosed = response.data.map((e) => {
+				return { alcoholID: e.alcohol.alcoholID, position: e.position };
+			});
+
+			setChoosed(getChoosed);
 		});
 	}, []);
 
@@ -42,6 +71,20 @@ export const MachineViewContainer = () => {
 		"7 Position",
 		"8 Position",
 	];
+	const acceptAlcohols = () => {
+		console.log(choosed);
+		axios.post("/setAlcohols", choosed).then((e) => {
+			navigation.navigate("Admin");
+		});
+	};
+
+	const selectValue = (position) => {
+		const exists = choosed.filter((e) => e.position == position);
+		return exists.length
+			? alcohols.filter((e) => e.id == exists[0].alcoholID)?.[0].name
+			: "";
+	};
+
 	const drinkFieldList =
 		alcohols &&
 		fields.map((field) => (
@@ -49,21 +92,43 @@ export const MachineViewContainer = () => {
 				<SectionDrinkPositionText>{field}</SectionDrinkPositionText>
 				<SelectComponent
 					data={[...alcohols]}
-					name="nameee"
+					value={selectValue(field.charAt(0))}
+					name={field.charAt(0)}
 					onSelect={onSelect}
 				/>
 			</SectionDrinkPosition>
 		));
 
-	console.log(alcohols);
+	const unblockMachine = () => {
+		axios.post("/unblockMachine");
+	};
+
+	const blockMachine = () => {
+		axios.post("/blockMachine");
+	};
 	return (
 		<ViewWrapper>
 			<MachineViewWrapper>
 				<Flex>
-					<Button text="Start machine" background={colorPallete.greenSea} />
-					<Button text="Stop machine" background={colorPallete.red} />
+					<Button
+						text="Start machine"
+						background={colorPallete.greenSea}
+						onPress={unblockMachine}
+					/>
+					<Button
+						text="Stop machine"
+						background={colorPallete.red}
+						onPress={blockMachine}
+					/>
 				</Flex>
 				{drinkFieldList}
+				<ButtonField>
+					<Button
+						text="Accept"
+						background={colorPallete.greenSea}
+						onPress={acceptAlcohols}
+					/>
+				</ButtonField>
 			</MachineViewWrapper>
 		</ViewWrapper>
 	);

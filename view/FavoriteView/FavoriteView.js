@@ -87,11 +87,8 @@ export const FavoriteViewContainer = () => {
 					<DetailsViewTitle>{element.name}</DetailsViewTitle>
 					{element.ingredients.map((ingredient) => (
 						<DetailsIngredientBox>
-							<DetailsDrinkImage
-								source={require("../../assets/finlandia.png")}
-							/>
 							<DetailsIngredientElement>
-								{ingredient.name}
+								{ingredient.alcoholName}
 							</DetailsIngredientElement>
 							<DetailsIngredientElement>
 								{ingredient.amount} ml

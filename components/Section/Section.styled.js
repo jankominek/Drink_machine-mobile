@@ -24,3 +24,10 @@ export const SectionContent = styled.ScrollView`
 	display: flex;
 	flex-direction: row;
 `;
+
+export const SectionTitleBox = styled.View`
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+`;

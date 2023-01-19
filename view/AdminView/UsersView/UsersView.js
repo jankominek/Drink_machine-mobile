@@ -10,15 +10,23 @@ import {
 	UserFieldName,
 	UserFieldNameBox,
 	UsersBox,
+	UserStatisticsBox,
 	UsersViewTitle,
 	UsersViewTitleText,
 	UsersViewWrapper,
 	UsersViewWrapperScrollView,
 } from "./UsersView.styled";
+import {
+	StatCount,
+	StatisticBox,
+	StatisticElement,
+	StatisticElementBox,
+} from "../../UserProfileView/UserProfileView.styled";
 import axios from "axios";
 
 const UsersViewContainer = () => {
 	const [users, setUsers] = useState([]);
+	const [selectedUser, setSelectedUser] = useState("");
 
 	useEffect(() => {
 		axios.get("/getAllUsers").then((response) => {
@@ -51,31 +59,45 @@ const UsersViewContainer = () => {
 		});
 		setUsers([...updatedArray]);
 	};
+
+	const setUser = (id) => {
+		if (selectedUser !== id) {
+			setSelectedUser(id);
+		} else {
+			setSelectedUser("");
+		}
+	};
+
+	console.log("USERS: ", users);
 	const userList = users.map((user) => (
-		<UserField
-			background={
-				user.blocked ? colorPallete.blockedRed : colorPallete.greenSea
-			}
-		>
-			<UserFieldNameBox>
-				<UserFieldName numberOfLines={1}>{user.email}</UserFieldName>
-			</UserFieldNameBox>
-			<UserFieldButtons>
-				{user.blocked ? (
-					<Button
-						text="Unlock"
-						width="100%"
-						onPress={() => unblockUser(user.userID)}
-					/>
-				) : (
-					<Button
-						text="Block"
-						width="100%"
-						onPress={() => blockUser(user.userID)}
-					/>
-				)}
-			</UserFieldButtons>
-		</UserField>
+		<>
+			<UserField
+				background={
+					user.blocked ? colorPallete.blockedRed : colorPallete.greenSea
+				}
+				onPress={() => setUser(user.userID)}
+			>
+				<UserFieldNameBox>
+					<UserFieldName numberOfLines={1}>{user.email}</UserFieldName>
+				</UserFieldNameBox>
+				<UserFieldButtons>
+					{user.blocked ? (
+						<Button
+							text="Unlock"
+							width="100%"
+							onPress={() => unblockUser(user.userID)}
+						/>
+					) : (
+						<Button
+							text="Block"
+							width="100%"
+							onPress={() => blockUser(user.userID)}
+						/>
+					)}
+				</UserFieldButtons>
+			</UserField>
+			<UserStatisticsBox></UserStatisticsBox>
+		</>
 	));
 
 	return (

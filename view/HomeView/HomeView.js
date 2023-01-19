@@ -51,26 +51,30 @@ const HomeViewContainer = (props) => {
 	useFocusEffect(
 		React.useCallback(() => {
 			axios.get(`/getUserData/${selector.userID}`).then((response) => {
-				console.log(response.data)
+				console.log(response.data);
 				dispatch(initUser(response.data));
 			});
 		}, []),
 	);
-
-	const RecommendedDrinksContent = (
-		<>
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-		</>
-	);
-
 	const onPressCard = (element) => {
 		setDrinkModalData(element);
 		setShowDrinkModal(true);
 		dispatch(toggleBottomSheet(false));
 	};
+
+	const RecommendedDrinksContent = (
+		<>
+			{selector?.recomendedDrinks?.map((element, index) => (
+				<MemoizedCard
+					backgroundColor={colorPallete.cardBackground}
+					description={element.name}
+					item={element}
+					onPress={onPressCard}
+					index={index}
+				/>
+			))}
+		</>
+	);
 
 	const RecentlySelectedContent = (
 		<>
@@ -88,10 +92,15 @@ const HomeViewContainer = (props) => {
 
 	const ReadyDrinks = (
 		<>
-			{/* <CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" />
-			<CardComponent icon="jameson" description="Jameson" /> */}
+			{selector?.premadeDrinks?.map((element, index) => (
+				<MemoizedCard
+					backgroundColor={colorPallete.cardBackground}
+					description={element.name}
+					item={element}
+					onPress={onPressCard}
+					index={index}
+				/>
+			))}
 		</>
 	);
 
@@ -114,7 +123,6 @@ const HomeViewContainer = (props) => {
 	};
 
 	const createDrinkModal = (data) => {
-
 		setShowDrinkModal(false);
 		dispatch(toggleBottomSheet(true));
 		axios
@@ -148,11 +156,11 @@ const HomeViewContainer = (props) => {
 							<CardButton onClick={createDrink} text="Create" />
 							<CardButton onClick={openFavorite} text="Favorite" />
 						</Flex>
-						{/* <Section
-						sectionTitle="Recommended drinks"
-						content={RecommendedDrinksContent}
-					/> */}
-						{/* <Section sectionTitle="Drinks" content={ReadyDrinks} /> */}
+						<Section sectionTitle="Premade drinks" content={ReadyDrinks} />
+						<Section
+							sectionTitle="Recommended drinks"
+							content={RecommendedDrinksContent}
+						/>
 						<Section
 							sectionTitle="Recently selected"
 							content={RecentlySelectedContent}

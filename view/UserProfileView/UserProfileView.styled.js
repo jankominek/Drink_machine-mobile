@@ -145,3 +145,23 @@ export const LogOutBtn = styled.Text`
 	color: ${colorPallete.textColorBackground};
 	padding: 8px 25px;
 `;
+
+export const UserPrefBox = styled.View`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid ${colorPallete.gray};
+	padding: 5px;
+	border-radius: 10px;
+	margin: 5px 0px;
+`;
+export const UserPrefText = styled.Text``;
+
+export const PrefFlex = styled.View`
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+`;

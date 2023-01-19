@@ -10,6 +10,8 @@ export const userState = createSlice({
 		favouriteDrinks: [],
 		drinkQueue: [],
 		showBottomSheet: true,
+		recomendedDrinks: [],
+		premadeDrinks: [],
 	},
 	reducers: {
 		initUser: (state, action) => {
@@ -18,6 +20,8 @@ export const userState = createSlice({
 			state.name = action.payload.name;
 			state.lastDrinks = action.payload.lastDrinks;
 			state.favouriteDrinks = action.payload.favouriteDrinks;
+			state.recomendedDrinks = action.payload.recomendedDrinks;
+			state.premadeDrinks = action.payload.premadeDrinks;
 		},
 		addDrinkToFavorite: (state, action) => {
 			state.favouriteDrinks = [...state.favouriteDrinks, action.payload];
@@ -49,6 +53,8 @@ export const userState = createSlice({
 			state.lastDrinks = [];
 			state.favouriteDrinks = [];
 			state.drinkQueue = [];
+			state.recomendedDrinks = [];
+			state.premadeDrinks = [];
 		},
 		changeUserName: (state, action) => {
 			state.name = action.payload;

@@ -24,3 +24,9 @@ export const Flex = styled.View`
 	flex-direction: row;
 	justify-content: space-evenly;
 `;
+
+export const ButtonField = styled.View`
+	display: flex;
+	align-items: center;
+	width: 100%;
+`;

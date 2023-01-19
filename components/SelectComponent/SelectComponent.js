@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import {
 	SelectButton,
@@ -10,10 +10,14 @@ import {
 } from "./SelectComponent.styled";
 
 export const SelectComponent = (props) => {
-	const { data, onSelect, name } = props;
+	const { data, onSelect, name, value } = props;
 
 	const [dropDown, setDropDown] = useState(false);
 	const [selected, setSelected] = useState("Select");
+
+	useEffect(() => {
+		setSelected(value);
+	}, [value]);
 
 	console.log("Select com: ", data);
 	const onSelectClick = () => {

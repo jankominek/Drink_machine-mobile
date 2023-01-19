@@ -17,6 +17,7 @@ import { UserProfileView } from "./view/UserProfileView/UserProfileView";
 import { NotificationBottomProvider } from "./NotificationBottomProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { QuestionView } from "./view/QuestionView/QuestionView";
+import { AllHistoryView } from "./view/AllHistoryView/AllHistoryView";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ export default function App() {
 								<Stack.Screen name="DrinkOrder" component={DrinkOrderView} />
 								<Stack.Screen name="UserProfile" component={UserProfileView} />
 								<Stack.Screen name="QuestionView" component={QuestionView} />
+								<Stack.Screen name="AllRecent" component={AllHistoryView} />
 							</Stack.Navigator>
 						</NotificationBottomProvider>
 					</NavigationContainer>

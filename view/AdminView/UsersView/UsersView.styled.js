@@ -23,7 +23,7 @@ export const UsersViewTitleText = styled.Text`
 	color: ${colorPallete.darkBlue};
 `;
 
-export const UserField = styled.View`
+export const UserField = styled.TouchableOpacity`
 	width: 98%;
 	min-height: 50px;
 	display: flex;
@@ -33,6 +33,12 @@ export const UserField = styled.View`
 	background: ${({ background }) => background};
 	border-radius: 5px;
 	padding: 5px;
+`;
+
+export const UserStatisticsBox = styled.View`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 `;
 
 export const UserFieldName = styled.Text`

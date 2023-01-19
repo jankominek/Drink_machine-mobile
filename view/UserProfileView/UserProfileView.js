@@ -6,6 +6,7 @@ import {
 	Flex,
 	LogOutBtn,
 	LogOutButtonBox,
+	PrefFlex,
 	SettingElementText,
 	SettingsBox,
 	SettingsBoxWrapper,
@@ -19,6 +20,8 @@ import {
 	UserIconNameBox,
 	UserInfoBox,
 	UserNameText,
+	UserPrefBox,
+	UserPrefText,
 	UserProfileEmail,
 	UserProfileName,
 	UserProfileWrapper,
@@ -35,6 +38,8 @@ import { Input } from "../../components/Input/Input";
 import axios from "axios";
 import { Button } from "../../components/Button/Button";
 import { showNotification } from "../../utils/showNotification";
+import { RadioButton } from "../../components/RadioButton/RadioButton";
+import { AnswerField, AnswerLabel } from "../QuestionView/QuestionView.styled";
 
 export const UserProfileViewContainer = ({ navigation }) => {
 	const user = useSelector((state) => state.user);
@@ -44,6 +49,7 @@ export const UserProfileViewContainer = ({ navigation }) => {
 	const [isStatistics, setIsStatistics] = useState(false);
 	const [isChangePassword, setIsChangePassword] = useState(false);
 	const [passwordState, setPasswordState] = useState({});
+	const [userPreferences, setUserPreferences] = useState([]);
 	const [userStats, setUserStats] = useState();
 
 	const dispatch = useDispatch();
@@ -51,6 +57,7 @@ export const UserProfileViewContainer = ({ navigation }) => {
 	useEffect(() => {
 		if (user?.userID) {
 			getUserStatistics();
+			getUserPreferences();
 		}
 	}, [user?.userID]);
 
@@ -71,6 +78,14 @@ export const UserProfileViewContainer = ({ navigation }) => {
 		}
 	};
 
+	const getUserPreferences = () => {
+		axios
+			.get(`/expertSystem/getUserPreferences/${user.userID}`)
+			.then((response) => {
+				console.log("user pref: ", response.data);
+				setUserPreferences(response.data);
+			});
+	};
 	const getUserStatistics = () => {
 		axios.get(`/getStatsForUser/${user.userID}`).then((response) => {
 			const resp = response.data;
@@ -145,10 +160,68 @@ export const UserProfileViewContainer = ({ navigation }) => {
 		</SettingsBoxWrapper>
 	);
 
+	const onSelectRadio = (id, num) => {
+		const newQuiz = userPreferences.map((e) => {
+			if (e.questionId === id) {
+				e.value = num;
+				return e;
+			}
+
+			return e;
+		});
+		setUserPreferences([...newQuiz]);
+	};
+	const yesNoTable = [0, 1];
+	const numbers = [1, 2, 3, 4, 5];
+	const userPrefList = userPreferences?.map((pref) => (
+		<UserPrefBox>
+			<UserPrefText>{pref.questionContent}</UserPrefText>
+			<PrefFlex>
+				{pref.firstQuestion
+					? yesNoTable.map((num) => (
+							<AnswerField>
+								<AnswerLabel>{num == 0 ? "No" : "Yes"}</AnswerLabel>
+								<RadioButton
+									isSelected={
+										userPreferences?.filter(
+											(e) => e.questionId == pref.questionId && e.value == num,
+										).length
+											? true
+											: false
+									}
+									onSelectItem={() => onSelectRadio(pref.questionId, num)}
+								/>
+							</AnswerField>
+					  ))
+					: numbers.map((num) => (
+							<AnswerField>
+								<AnswerLabel>{num}</AnswerLabel>
+								<RadioButton
+									isSelected={
+										userPreferences?.filter(
+											(e) => e.questionId == pref.questionId && e.value == num,
+										).length
+											? true
+											: false
+									}
+									onSelectItem={() => onSelectRadio(pref.questionId, num)}
+								/>
+							</AnswerField>
+					  ))}
+			</PrefFlex>
+		</UserPrefBox>
+	));
 	const userPreferencesView = (
-		<SettingsBoxWrapper>
-			<Text>User preferences</Text>
-		</SettingsBoxWrapper>
+		<>
+			<SettingsBoxWrapper>
+				{userPrefList}
+				<Button
+					text="Change preferences"
+					width="50%"
+					background={colorPallete.greenSea}
+				/>
+			</SettingsBoxWrapper>
+		</>
 	);
 
 	const userStatisticList =
@@ -171,55 +244,57 @@ export const UserProfileViewContainer = ({ navigation }) => {
 	return (
 		<ScrollView>
 			<ViewWrapper>
-				<UserProfileWrapper>
-					<UserBox>
-						<UserIconNameBox>
-							<UserNameText>
-								{String(user?.name).toUpperCase().slice(0, 1)}
-							</UserNameText>
-						</UserIconNameBox>
-						<UserInfoBox>
-							<Flex>
-								{isEditingName ? (
-									<Input onChange={onChangeName} value={userName} />
-								) : (
-									<UserProfileName>{user?.name}</UserProfileName>
-								)}
-								<TouchableOpacity onPress={onPencilPress}>
-									<MaterialCommunityIcons
-										name="pencil-outline"
-										size={22}
-										color={colorPallete.textColorBackground}
-									/>
-								</TouchableOpacity>
-							</Flex>
-							<UserProfileEmail>{user?.email}</UserProfileEmail>
-						</UserInfoBox>
-					</UserBox>
-					<SettingsBox>
-						<SettingsTextTitle>Settings</SettingsTextTitle>
-						<SettingsElement onPress={() => setIsUSerPref(!isUserPref)}>
-							<SettingElementText>User preferences</SettingElementText>
-							<SimpleLineIcons name="arrow-left" size={20} color="black" />
-						</SettingsElement>
-						{isUserPref && userPreferencesView}
-						<SettingsElement onPress={() => setIsStatistics(!isStatistics)}>
-							<SettingElementText>Statistics</SettingElementText>
-							<SimpleLineIcons name="arrow-left" size={20} color="black" />
-						</SettingsElement>
-						{isStatistics && statisticsView}
-						<SettingsElement onPress={changePassword}>
-							<SettingElementText>Change password</SettingElementText>
-							<SimpleLineIcons name="arrow-left" size={20} color="black" />
-						</SettingsElement>
-						{isChangePassword && changePasswordView}
-					</SettingsBox>
-					<BottomBox>
-						<LogOutButtonBox onPress={logOut}>
-							<LogOutBtn>Log out</LogOutBtn>
-						</LogOutButtonBox>
-					</BottomBox>
-				</UserProfileWrapper>
+				<ScrollView>
+					<UserProfileWrapper>
+						<UserBox>
+							<UserIconNameBox>
+								<UserNameText>
+									{String(user?.name).toUpperCase().slice(0, 1)}
+								</UserNameText>
+							</UserIconNameBox>
+							<UserInfoBox>
+								<Flex>
+									{isEditingName ? (
+										<Input onChange={onChangeName} value={userName} />
+									) : (
+										<UserProfileName>{user?.name}</UserProfileName>
+									)}
+									<TouchableOpacity onPress={onPencilPress}>
+										<MaterialCommunityIcons
+											name="pencil-outline"
+											size={22}
+											color={colorPallete.textColorBackground}
+										/>
+									</TouchableOpacity>
+								</Flex>
+								<UserProfileEmail>{user?.email}</UserProfileEmail>
+							</UserInfoBox>
+						</UserBox>
+						<SettingsBox>
+							<SettingsTextTitle>Settings</SettingsTextTitle>
+							<SettingsElement onPress={() => setIsUSerPref(!isUserPref)}>
+								<SettingElementText>User preferences</SettingElementText>
+								<SimpleLineIcons name="arrow-left" size={20} color="black" />
+							</SettingsElement>
+							{isUserPref && userPreferencesView}
+							<SettingsElement onPress={() => setIsStatistics(!isStatistics)}>
+								<SettingElementText>Statistics</SettingElementText>
+								<SimpleLineIcons name="arrow-left" size={20} color="black" />
+							</SettingsElement>
+							{isStatistics && statisticsView}
+							<SettingsElement onPress={changePassword}>
+								<SettingElementText>Change password</SettingElementText>
+								<SimpleLineIcons name="arrow-left" size={20} color="black" />
+							</SettingsElement>
+							{isChangePassword && changePasswordView}
+						</SettingsBox>
+						<BottomBox>
+							<LogOutButtonBox onPress={logOut}>
+								<LogOutBtn>Log out</LogOutBtn>
+							</LogOutButtonBox>
+						</BottomBox>
+					</UserProfileWrapper>
+				</ScrollView>
 			</ViewWrapper>
 		</ScrollView>
 	);

@@ -43,8 +43,14 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 	const selector = useSelector((state) => state.user);
 
 	useEffect(() => {
-		axios.get("/getAllAlcohols").then((response) => {
-			setAlcoholList(response.data);
+		axios.get("/getAlcoholsOnMachine").then((response) => {
+			const alcs = response.data.map((e) => {
+				return {
+					alcoholID: e.alcohol.alcoholID,
+					alcoholName: e.alcohol.alcoholName,
+				};
+			});
+			setAlcoholList(alcs);
 		});
 	}, []);
 
@@ -229,7 +235,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			<GlassAlcohol
 				height={percentage}
 				index={index}
-				background={drink ? drink.color : "gray"}
+				background={drink ? "gray" : "gray"}
 			>
 				<Text>{element.alcoholName}</Text>
 			</GlassAlcohol>

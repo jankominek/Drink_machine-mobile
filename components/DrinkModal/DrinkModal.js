@@ -19,8 +19,8 @@ export const DrinkModal = ({ data, onClose, onCreate, parentHeight }) => {
 
 	const ingredients = data?.ingredients.map((element) => (
 		<IngredientBox>
-			<IngredientElement>[element]</IngredientElement>
-			<IngredientElement>{element.amount}ml</IngredientElement>
+			<IngredientElement>{element.alcoholName}</IngredientElement>
+			<IngredientElement>[ {element.amount}ml ]</IngredientElement>
 		</IngredientBox>
 	));
 

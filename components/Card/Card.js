@@ -28,6 +28,7 @@ export const CardComponent = (props) => {
 	}, []);
 
 	const onPressCard = () => {
+		console.log("onPressCard: ", item);
 		onPress && onPress(item);
 	};
 
