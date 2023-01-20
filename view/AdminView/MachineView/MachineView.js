@@ -81,7 +81,7 @@ export const MachineViewContainer = () => {
 	const selectValue = (position) => {
 		const exists = choosed.filter((e) => e.position == position);
 		return exists.length
-			? alcohols.filter((e) => e.id == exists[0].alcoholID)?.[0].name
+			? alcohols.filter((e) => e.id == exists[0].alcoholID)?.[0]?.name
 			: "";
 	};
 

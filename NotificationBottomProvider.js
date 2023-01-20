@@ -70,6 +70,7 @@ export const NotificationBottomProvider = ({ children }) => {
 	};
 
 	const onMessageReceived = (msg) => {
+		console.log(msg.queue);
 		dispatch(updateDrinkQueue(msg.queue));
 		dispatch(toggleBottomSheet(true));
 		checkFirstInQueue(msg.queue);

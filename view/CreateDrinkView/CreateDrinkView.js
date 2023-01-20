@@ -132,7 +132,7 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 
 	const startDrink = () => {
 		const preparedAlcoholList = selectedAlcohol.map((element) => {
-			return { alcoholID: element.alcoholID, amount: element.ml };
+			return { alcoholID: element.alcoholID, amount: Number(element.ml) / 50 };
 		});
 
 		const objectToSend = {
@@ -141,6 +141,8 @@ export const CreateDrinkViewContainer = ({ navigation }) => {
 			ingredients: preparedAlcoholList,
 			addToFavourite: favoriteOption,
 		};
+
+		console.log("OBJECT TO SEND: ", objectToSend);
 		axios.post("/createDrink", objectToSend).catch(() => {
 			showNotification(
 				"Something went wrong!",

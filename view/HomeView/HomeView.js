@@ -54,6 +54,7 @@ const HomeViewContainer = (props) => {
 				console.log(response.data);
 				dispatch(initUser(response.data));
 			});
+			console.log("!\n!\n!\n!\n!\n!\n!\n!\n!\n!\n");
 		}, []),
 	);
 	const onPressCard = (element) => {
